@@ -1,65 +1,31 @@
-.App {
+/* App.css */
+
+.topnav {
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  background-color: #333;
+  width: 100%; 
+  display: flex;
+  align-items: center; 
+  height: 60px; 
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
   text-align: center;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-image: url('/Images/logo.png');
-  background-color: #282c34;
-  background-size: cover;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
-/* ... (rest of your styles) */
-
-.slogan {
-  position: absolute;
-  top: 50%;
-  right: 100px;
-  transform: translate(0, 700%);
-  background-color: #fff;
-  padding: 10px;
-  border: 1px solid #000;
-  /* Additional styles like font-size, color, text-align can be added here */
+.topnav a:hover {
+  background-color: #007bffbb;
+  color: #333;
 }
 
-
-.slide-in {
-  background-color: #e71313;
-  width: 100%; /* Adjust the width as needed */
-  max-width: 20000px; /* Set a maximum width */
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-  transform: translateY(100%);
-  transition: transform 0.5s ease;
-}
-
-.App:hover .slide-in {
-  transform: translateY(0);
-}
-
-.App-header {
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.categories {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.category-box {
-  background-color: #61dafb;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.category-box:hover {
-  background-color: #007acc; /* Change the color as needed */
+.topnav a.active {
+  background-color: #007bffbb;
+  color: #fff;
 }
