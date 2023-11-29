@@ -33,10 +33,10 @@ const userSchema = new Schema({
 }, { timestamps: true })
 
 // static signup
-userSchema.statics.signup = async function(email, password) {
+userSchema.statics.signup = async function(email, password, userName, fullName) {
     // data validation
-    if (!email || !password) {
-        throw Error('Email and password fields must be filled')
+    if (!email || !password || !userName || !fullName) {
+        throw Error('Fields must be filled out')
     }
     if (!validator.isEmail(email)) {
         throw Error('Invalid email')
@@ -51,7 +51,7 @@ userSchema.statics.signup = async function(email, password) {
     const uniquify = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, uniquify)
 
-    const userData = await this.create({ email, password: hash })
+    const userData = await this.create({ email, password: hash, userName, fullName })
     
     return userData
 }
