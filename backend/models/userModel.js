@@ -14,18 +14,22 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    gender: {
+    fullName: {
         type: String,
-        required: false
+        required: true
+    },
+    userName: {
+        type: String,
+        required: true
     },
     interests: {
         type: Array,
         required: false
     },
-    schoolYear: {
-        type: Number,
+    myEvents: {
+        type: Array,
         required: false
-    }
+    },
 }, { timestamps: true })
 
 // static signup
