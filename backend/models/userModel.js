@@ -32,6 +32,23 @@ const userSchema = new Schema({
     },
 }, { timestamps: true })
 
+userSchema.statics.login = async function(email, password) {
+    if (!email || !password) {
+        throw Error('Email and password must be filled out')
+    }
+
+    const user = await this.findOne({ email })
+    if (!user) {
+        throw Error('Email doesn\'t exist in database')
+    }
+
+    const match = await bcrypt.compare(password, user.password)
+    if (!match) {
+        throw Error('Incorrect password')
+    }
+
+    return user
+}
 // static signup
 userSchema.statics.signup = async function(email, password, userName, fullName) {
     // data validation
