@@ -17,7 +17,7 @@ const eventSchema = new Schema({
     },
     spotsOpen: {
         type: Number,
-        required: true
+        required: false
     },
     lookingFor: { // Maybe like looking for only girls or only competitive?
         type: String,
@@ -25,6 +25,10 @@ const eventSchema = new Schema({
     },
     usersAssociated: {
         type: Array,
+        required: false
+    },
+    description: {
+        type: String,
         required: false
     }
 }, { timestamps: true })
