@@ -8,7 +8,7 @@ import Signup from './Components/Signup';
 import About from './Components/About'
 import Home from './Components/Home'
 import FindEvents from './Components/Find Events';
-
+import CreateEvent from './Components/Create Events';
 import './App.css';
 
 function App() {
@@ -21,13 +21,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/myevents" element={<MyEvents />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/about" element={<About />} />
             <Route path="/" element={<Home />} />
             <Route path="/findevents" element={<FindEvents />} />
           </Routes>
 
           <div className="topnav">
-          <NavLink to="/" exact activeClassName="active">
+
+            <NavLink to="/" exact activeClassName="active">
               <img src={logo} 
               alt="Home" 
               style={{ width: '70px', height: '2%', marginRight: '0px' }}

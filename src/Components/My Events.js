@@ -1,17 +1,22 @@
-import React from 'react';
-import { ChakraProvider, Box, Text } from '@chakra-ui/react';
+// MyEvents.js
 
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ChakraProvider, Box, Text, Button } from '@chakra-ui/react';
 
 function MyEvents() {
-    return (
-        <ChakraProvider>
-          {/* Use Chakra UI components to structure your layout */}
-          <Box textAlign="center" paddingTop="20">
-            <Text fontSize="2xl">TODO</Text>
-          </Box>
-        </ChakraProvider>
-      );
-
+  return (
+    <ChakraProvider>
+      <Box textAlign="center" paddingTop="20">
+        <Text fontSize="2xl">My Events Page</Text>
+        <Link to="/create-event">
+          <Button variant="primary" style={{ background: 'blue', color: 'white', margin: '10px' }}>
+            Create Event
+          </Button>
+        </Link>
+      </Box>
+    </ChakraProvider>
+  );
 }
 
-export default MyEvents
+export default MyEvents;
