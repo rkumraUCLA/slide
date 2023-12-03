@@ -5,10 +5,10 @@ import Login from './Components/Login';
 import MyEvents from './Components/My Events';
 import logo from './Images/logo.png';
 import Signup from './Components/Signup';
-import About from './Components/About'
-import Home from './Components/Home'
+import Home from './Components/Home';
 import FindEvents from './Components/Find Events';
 import CreateEvent from './Components/Create Events';
+import Profile from './Components/Profile';
 import './App.css';
 
 function App() {
@@ -22,8 +22,8 @@ function App() {
             <Route path="/myevents" element={<MyEvents />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/create-event" element={<CreateEvent />} />
-            <Route path="/about" element={<About />} />
             <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/findevents" element={<FindEvents />} />
           </Routes>
 
@@ -35,14 +35,14 @@ function App() {
               style={{ width: '70px', height: '2%', marginRight: '0px' }}
               />
             </NavLink>
-            <NavLink to="/about" activeClassName="active">
-              About
-            </NavLink>
             <NavLink to="/findevents" activeClassName="active">
               Find Events
             </NavLink>
             <NavLink to="/myevents" activeClassName="active">
               My Events
+            </NavLink>
+            <NavLink to='/profile' activeClassName="active">
+              Profile
             </NavLink>
             <div style={{ marginLeft: 'auto' }}>
               <NavLink to="/login" activeClassName="active">
