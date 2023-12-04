@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const eventRoutes = require('./routes/events')
 const userRoutes = require('./routes/user')
+const uri = "mongodb+srv://rishi:varun@slide.85slljn.mongodb.net/?retryWrites=true&w=majority"
 
 // express app instantiation
 const app = express();
@@ -19,9 +20,9 @@ app.use('/api/events', eventRoutes)
 app.use('/api/user', userRoutes)
 
 // db connect
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(uri) //process.env.MONGO_URI)
     .then(() => { 
-        app.listen(process.env.PORT, () => {
+        app.listen(4000, () => { //process.env.PORT
             console.log('Connected to db and listening on port 4000!');
         })
     })
