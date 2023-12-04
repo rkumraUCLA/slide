@@ -89,6 +89,6 @@ const About = () => {
       </Box>
     </ChakraProvider>
   );
-};
+}
 
 export default About;
