@@ -16,22 +16,6 @@ import {
 } from '@chakra-ui/react';
 
 function Profile() {
-  const [users, setUsers] = useState(null)
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch('/api/user/getUsers')
-      const json = await response.json()
-
-      if(response.ok){
-        setUsers(json)
-        console.log(json)
-      }
-    }
-
-    fetchUsers()
-  }, [])
-
 
   const [formData, setFormData] = useState({
     photo: null,
