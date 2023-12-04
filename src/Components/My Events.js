@@ -1,7 +1,9 @@
+// MyEvents.js
+
 import React from 'react';
 import { useState, useEffect} from 'react'
-import { ChakraProvider, Box, Text } from '@chakra-ui/react';
-
+import { Link } from 'react-router-dom';
+import { ChakraProvider, Box, Text, Button } from '@chakra-ui/react';
 
 const MyEvents = () => {
   const [events, setEvents] = useState(null)
@@ -34,4 +36,4 @@ const MyEvents = () => {
 
 }
 
-export default MyEvents
+export default MyEvents;

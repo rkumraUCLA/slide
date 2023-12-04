@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json())
 
 app.use((req, res, next) => {
-    console.log(req.path, req.method);
-    next()
+  console.log(req.path, req.method);
+  next()
 })
 
 // routing
@@ -21,11 +21,11 @@ app.use('/api/user', userRoutes)
 
 // db connect
 mongoose.connect(uri) //process.env.MONGO_URI)
-    .then(() => { 
-        app.listen(4000, () => { //process.env.PORT
-            console.log('Connected to db and listening on port 4000!');
-        })
+  .then(() => { 
+    app.listen(4000, () => { //process.env.PORT
+      console.log('Connected to db and listening on port 4000!');
     })
-    .catch((error) => {
-        console.log(error)
-    })
+  })
+  .catch((error) => {
+    console.log(error)
+  })

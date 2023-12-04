@@ -1,5 +1,6 @@
 /* App.css */
 
+
 .topnav {
   position: fixed;
   top: 0;
@@ -9,6 +10,7 @@
   display: flex;
   align-items: center; 
   height: 60px; 
+  z-index: 1000;
 }
 
 .topnav a {
