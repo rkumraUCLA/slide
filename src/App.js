@@ -9,6 +9,7 @@ import Home from './Components/Home';
 import FindEvents from './Components/Find Events';
 import CreateEvent from './Components/Create Events';
 import Profile from './Components/Profile';
+import UserMatching from './Components/UserMatching';
 import './App.css';
 
 function App() {
@@ -25,10 +26,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/findevents" element={<FindEvents />} />
+            <Route path="/usermatching" element={<UserMatching />} />
           </Routes>
 
           <div className="topnav">
-
             <NavLink to="/" exact activeClassName="active">
               <img src={logo} 
               alt="Home" 
@@ -43,6 +44,9 @@ function App() {
             </NavLink>
             <NavLink to='/profile' activeClassName="active">
               Profile
+            </NavLink>
+            <NavLink to='/usermatching' activeClassName="active">
+              Match With Users!
             </NavLink>
             <div style={{ marginLeft: 'auto' }}>
               <NavLink to="/login" activeClassName="active">
