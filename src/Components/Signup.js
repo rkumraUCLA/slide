@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 import { useState } from 'react';
 import { useSignup } from "../hooks/useSignup"
 
@@ -25,14 +26,61 @@ function Signup() {
   const [password, setPassword] = useState('')
   const [username, setUser] = useState('')
   const [fullName, setName] = useState('')
+  const [age, setAge] = useState('')
+  const [sports, setSports] = useState('')
   const {signup, error, isLoading} = useSignup()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await signup(email, password, username, fullName)
+    await signup(email, password, username, fullName, age, sports)
   }
 
+  const sportsOptions = [
+    { value: 'aikido', label: 'Aikido' },
+    { value: 'archery', label: 'Archery' },
+    { value: 'badminton', label: 'Badminton' },
+    { value: 'baseball', label: 'Baseball' },
+    { value: 'basketball', label: 'Basketball' },
+    { value: 'bmx', label: 'BMX' },
+    { value: 'boxing', label: 'Boxing' },
+    { value: 'cricket', label: 'Cricket' },
+    { value: 'cycling', label: 'Cycling' },
+    { value: 'diving', label: 'Diving' },
+    { value: 'equestrian', label: 'Equestrian' },
+    { value: 'fencing', label: 'Fencing' },
+    { value: 'football', label: 'Football' },
+    { value: 'golf', label: 'Golf' },
+    { value: 'gymnastics', label: 'Gymnastics' },
+    { value: 'handball', label: 'Handball' },
+    { value: 'ice hockey', label: 'Ice Hockey' },
+    { value: 'judo', label: 'Judo' },
+    { value: 'karate', label: 'Karate' },
+    { value: 'lacrosse', label: 'Lacrosse' },
+    { value: 'martial arts', label: 'Martial Arts' },
+    { value: 'mountain biking', label: 'Mountain Biking' },
+    { value: 'rowing', label: 'Rowing' },
+    { value: 'rugby', label: 'Rugby' },
+    { value: 'sailing', label: 'Sailing' },
+    { value: 'skateboarding', label: 'Skateboarding' },
+    { value: 'skiing', label: 'Skiing' },
+    { value: 'snowboarding', label: 'Snowboarding' },
+    { value: 'soccer', label: 'Soccer' },
+    { value: 'surfing', label: 'Surfing' },
+    { value: 'swimming', label: 'Swimming' },
+    { value: 'table tennis', label: 'Table Tennis' },
+    { value: 'taekwondo', label: 'Taekwondo' },
+    { value: 'tennis', label: 'Tennis' },
+    { value: 'track and field', label: 'Track and Field' },
+    { value: 'triathlon', label: 'Triathlon' },
+    { value: 'volleyball', label: 'Volleyball' },
+    { value: 'water polo', label: 'Water Polo' },
+    { value: 'weightlifting', label: 'Weightlifting' },
+    { value: 'wrestling', label: 'Wrestling' },
+    { value: 'squash', label: 'Squash' }, // Adjusted to maintain alphabetical order
+  ]
+
   return (
+    
     <ChakraProvider>
       <Container
         maxW="lg"
@@ -129,6 +177,27 @@ function Signup() {
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
                     />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="Age">Age</FormLabel>
+                    <Input 
+                      id="age" 
+                      type="number" 
+                      onChange={(e) => setAge(e.target.value)}
+                      value={age}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="sports">Sports You Play</FormLabel>
+                    <Select
+                      id="sports" 
+                      options={sportsOptions} 
+                      isMulti
+                      onChange={(selectedOptions) => 
+                        setSports(selectedOptions.map(option => option.value))
+                      }
+                    >
+                    </Select>
                   </FormControl>
                 </Stack>
                 <Divider />

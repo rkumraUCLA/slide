@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import {
   ChakraProvider,
   Box,
@@ -15,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 function Profile() {
+
   const [formData, setFormData] = useState({
     photo: null,
     sports: [],
@@ -80,7 +82,7 @@ function Profile() {
           </Text>
           <form onSubmit={handleSubmit}>
             <FormControl id="photo" isRequired mb="7">
-              <FormLabel fontSize="3xl">Profile Photo</FormLabel>
+              <FormLabel fontSize="2xl">Profile Photo</FormLabel>
               <Input
                 type="file"
                 name="photo"
@@ -90,7 +92,7 @@ function Profile() {
             </FormControl>
 
             <FormControl id="favoriteSports" isRequired mb="7">
-  <FormLabel fontSize="3xl">Favorite Sports</FormLabel>
+  <FormLabel fontSize="2xl">Favorite Sports</FormLabel>
   <Select
     name="favoriteSports"
     isMulti  // Enable multiple selections
@@ -109,7 +111,7 @@ function Profile() {
             {formData.sports.map((sport, index) => (
               <HStack key={index} spacing="4">
                 <FormControl id={`skillLevel-${index}`} isRequired>
-                  <FormLabel fontSize="3xl">
+                  <FormLabel fontSize="2xl">
                     Skill Level for {sport.sport}
                   </FormLabel>
                   <Select
@@ -118,7 +120,7 @@ function Profile() {
                     onChange={(e) =>
                       handleSkillLevelChange(index, parseInt(e.target.value))
                     }
-                    fontSize="3xl"
+                    fontSize="2xl"
                   >
                     {[1, 2, 3, 4, 5].map((level) => (
                       <option key={level} value={level}>
@@ -131,7 +133,7 @@ function Profile() {
             ))}
 
             <FormControl id="age" isRequired >
-              <FormLabel fontSize="3xl">Age</FormLabel>
+              <FormLabel fontSize="2xl">Age</FormLabel>
               <Input
                 type="number"
                 name="age"
@@ -142,7 +144,7 @@ function Profile() {
             </FormControl>
 
             <FormControl id="location" isRequired>
-              <FormLabel fontSize="3xl">Location</FormLabel>
+              <FormLabel fontSize="2xl">Location</FormLabel>
               <Input
                 type="text"
                 name="location"
@@ -153,7 +155,7 @@ function Profile() {
             </FormControl>
 
             <FormControl id="bio" isRequired>
-              <FormLabel fontSize="3xl">Bio</FormLabel>
+              <FormLabel fontSize="2xl">Bio</FormLabel>
               <Textarea
                 name="bio"
                 value={formData.bio}

@@ -22,9 +22,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    interests: {
+    sports: {
         type: Array,
         required: false
+    },
+    age: {
+        type: Number,
+        required: true
     },
     myEvents: {
         type: Array,
@@ -50,7 +54,7 @@ userSchema.statics.login = async function(email, password) {
     return user
 }
 // static signup
-userSchema.statics.signup = async function(email, password, userName, fullName) {
+userSchema.statics.signup = async function(email, password, userName, fullName, age, sports) {
     // data validation
     if (!email || !password || !userName || !fullName) {
         throw Error('Fields must be filled out')
@@ -68,9 +72,10 @@ userSchema.statics.signup = async function(email, password, userName, fullName) 
     const uniquify = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, uniquify)
 
-    const userData = await this.create({ email, password: hash, userName, fullName })
+    const userData = await this.create({ email, password: hash, userName, fullName, age, sports})
     
     return userData
 }
+
 
 module.exports = mongoose.model('User', userSchema)

@@ -27,6 +27,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/findevents" element={<FindEvents />} />
+            <Route path="/usermatching" element={<UserMatching />} />
             {/* Updated Route for EventDetails */}
             <Route path="/event/:eventId" element={<EventDetails />} />
           </Routes>
