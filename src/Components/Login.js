@@ -1,4 +1,5 @@
 import React from 'react';
+// import {useEffect, useState } from React;
 import {
   Container,
   Stack,
@@ -13,10 +14,26 @@ import {
   Divider,
   Flex,
 } from '@chakra-ui/react';
+
 import { ChakraProvider } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 function Login() {
+  // const [logins, setLogins] = useState(null)
+
+  // useEffect(() => {
+  //   const fetchLogins = async () => {
+  //     const response = await fetch('https://localhost:4000/api/workouts')
+  //     const json = await response.json()
+      
+  //     if (response.ok){
+
+  //     }
+  //   }
+
+  //   fetchLogins()
+  // }, [])
+
   return (
     <ChakraProvider>
       <Container
