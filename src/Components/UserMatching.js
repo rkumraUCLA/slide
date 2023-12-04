@@ -6,12 +6,10 @@ function UserMatching() {
   return (
     <ChakraProvider>
       <Box textAlign="center" paddingTop="20">
-        <Text fontSize="2xl">My Events Page</Text>
-        <Link to="/create-event">
+        <Text fontSize="2xl">Match With Users</Text>
           <Button variant="primary" style={{ background: 'blue', color: 'white', margin: '10px' }}>
-            Create Event
+            Match Here!
           </Button>
-        </Link>
       </Box>
     </ChakraProvider>
   );
