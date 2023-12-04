@@ -22,7 +22,6 @@ const loginUser = async (req, res) => {
 const signupUser = async (req, res) => {
     const { email, password, userName, fullName, age, sports } = req.body
     try {
-        console.log(JSON.stringify({email, password, userName, fullName, age, sports}))
         const user = await User.signup(email, password, userName, fullName, age, sports)
         const token = createToken(user._id)
         res.status(200).json({email, token})

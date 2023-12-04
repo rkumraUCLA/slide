@@ -1,6 +1,10 @@
 const express = require('express');
-const route = express.Router()
 const Event = require('../models/eventModel')
+// const requireAuth = require('../middlewareFunctions/requireAuthentication')
+
+const route = express.Router()
+
+
 const {
     createEvent,
     getEvent,
@@ -8,6 +12,8 @@ const {
     deleteEvent,
     updateEvent
 } = require('../controllers/eventController')
+
+// route.use(requireAuth)
 
 route.get('/', getAllEvents)
 
