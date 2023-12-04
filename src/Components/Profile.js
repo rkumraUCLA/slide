@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import {
   ChakraProvider,
   Box,
@@ -15,6 +16,23 @@ import {
 } from '@chakra-ui/react';
 
 function Profile() {
+  const [users, setUsers] = useState(null)
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch('/api/user/getUsers')
+      const json = await response.json()
+
+      if(response.ok){
+        setUsers(json)
+        console.log(json)
+      }
+    }
+
+    fetchUsers()
+  }, [])
+
+
   const [formData, setFormData] = useState({
     photo: null,
     sports: [],

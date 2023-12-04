@@ -73,4 +73,5 @@ userSchema.statics.signup = async function(email, password, userName, fullName) 
     return userData
 }
 
+
 module.exports = mongoose.model('User', userSchema)
