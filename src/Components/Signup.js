@@ -1,4 +1,7 @@
 import React from 'react';
+import { useState } from 'react';
+import { useSignup } from "../hooks/useSignup"
+
 import {
   Container,
   Stack,
@@ -16,7 +19,19 @@ import {
 import { ChakraProvider } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
+
 function Signup() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [username, setUser] = useState('')
+  const [fullName, setName] = useState('')
+  const {signup, error, isLoading} = useSignup()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await signup(email, password, username, fullName)
+  }
+
   return (
     <ChakraProvider>
       <Container
@@ -54,66 +69,87 @@ function Signup() {
               </Button>
             </ChakraLink>
           </Flex>
-          <Box
-            py={{
-              base: '0',
-              sm: '8',
-            }}
-            px={{
-              base: '4',
-              sm: '10',
-            }}
-            bg={{
-              base: 'transparent',
-              sm: 'bg-surface',
-            }}
-            boxShadow={{
-              base: 'none',
-              sm: 'md',
-            }}
-            borderRadius={{
-              base: 'none',
-              sm: 'xl',
-            }}
-          >
-            <Stack spacing="6">
-              <Stack spacing="5">
-              <FormControl>
-                  <FormLabel htmlFor="fullname">Full Name</FormLabel>
-                  <Input id="username" type="text" />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="username">Username</FormLabel>
-                  <Input id="username" type="text" />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="email">Email</FormLabel>
-                  <Input id="email" type="email" />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="password">Password</FormLabel>
-                  <Input id="password" type="password" />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
-                  <Input id="confirmPassword" type="password" />
-                </FormControl>
-              </Stack>
-              <Divider />
+          <form onSubmit = {handleSubmit}>
+            <Box
+              py={{
+                base: '0',
+                sm: '8',
+              }}
+              px={{
+                base: '4',
+                sm: '10',
+              }}
+              bg={{
+                base: 'transparent',
+                sm: 'bg-surface',
+              }}
+              boxShadow={{
+                base: 'none',
+                sm: 'md',
+              }}
+              borderRadius={{
+                base: 'none',
+                sm: 'xl',
+              }}
+            >
               <Stack spacing="6">
-                <Button
-                  variant="primary"
-                  style={{
-                    background: 'blue',
-                    color: 'white',
-                    margin: '10px',
-                  }}
-                >
-                  Sign up
-                </Button>
+                <Stack spacing="5">
+                <FormControl>
+                    <FormLabel htmlFor="fullname">Full Name</FormLabel>
+                    <Input 
+                      id="fullName" 
+                      type="text" 
+                      onChange={(e) => setName(e.target.value)}
+                      value={fullName}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Username</FormLabel>
+                    <Input 
+                      id="username" 
+                      type="text" 
+                      onChange={(e) => setUser(e.target.value)}
+                      value={username}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      value = {email}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Input 
+                      id="password" 
+                      type="password" 
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                    />
+                  </FormControl>
+                </Stack>
+                <Divider />
+                <Stack spacing="6">
+                  <Button
+                    variant="primary"
+                    style={{
+                      background: 'blue',
+                      color: 'white',
+                      margin: '10px',
+                    }}
+                    onClick= {handleSubmit}
+                    disabled = {isLoading}
+                  >
+                    Sign up
+                  </Button>
+                  {error && <div className="error">(error)</div>}
+                </Stack>
               </Stack>
-            </Stack>
-          </Box>
+            </Box>
+          </form>  
         </Stack>
       </Container>
     </ChakraProvider>
