@@ -11,6 +11,7 @@ import Home from './Components/Home';
 import FindEvents from './Components/Find Events';
 import CreateEvent from './Components/Create Events';
 import Profile from './Components/Profile';
+import UserMatching from './Components/UserMatching';
 import './App.css';
 
 function App() {
