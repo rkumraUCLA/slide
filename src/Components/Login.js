@@ -1,5 +1,7 @@
 import React from 'react';
-// import {useEffect, useState } from React;
+import { useLogin } from '../hooks/useLogin';
+import {useState } from 'react';
+
 import {
   Container,
   Stack,
@@ -19,20 +21,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 function Login() {
-  // const [logins, setLogins] = useState(null)
+  const [email, setEmail] = useState('')
+  const [password, setPass] = useState('')
+  const {login, error, isLoading} = useLogin()
 
-  // useEffect(() => {
-  //   const fetchLogins = async () => {
-  //     const response = await fetch('https://localhost:4000/api/workouts')
-  //     const json = await response.json()
-      
-  //     if (response.ok){
-
-  //     }
-  //   }
-
-  //   fetchLogins()
-  // }, [])
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await login(email, password)
+  }
 
   return (
     <ChakraProvider>
@@ -71,54 +67,68 @@ function Login() {
               </Button>
             </ChakraLink>
           </Flex>
-          <Box
-            py={{
-              base: '0',
-              sm: '8',
-            }}
-            px={{
-              base: '4',
-              sm: '10',
-            }}
-            bg={{
-              base: 'transparent',
-              sm: 'bg-surface',
-            }}
-            boxShadow={{
-              base: 'none',
-              sm: 'md',
-            }}
-            borderRadius={{
-              base: 'none',
-              sm: 'xl',
-            }}
-          >
-            <Stack spacing="6">
-              <Stack spacing="5">
-                <FormControl>
-                  <FormLabel htmlFor="userName">Username</FormLabel>
-                  <Input id="userName" type="text" />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="password">Password</FormLabel>
-                  <Input id="password" type="password" />
-                </FormControl>
-              </Stack>
-              <Divider />
+          <flex onSubmit = {handleSubmit}>
+            <Box
+              py={{
+                base: '0',
+                sm: '8',
+              }}
+              px={{
+                base: '4',
+                sm: '10',
+              }}
+              bg={{
+                base: 'transparent',
+                sm: 'bg-surface',
+              }}
+              boxShadow={{
+                base: 'none',
+                sm: 'md',
+              }}
+              borderRadius={{
+                base: 'none',
+                sm: 'xl',
+              }}
+            >
               <Stack spacing="6">
-                <Button
-                  variant="primary"
-                  style={{
-                    background: 'blue',
-                    color: 'white',
-                    margin: '10px',
-                  }}
-                >
-                  Sign in
-                </Button>
+                <Stack spacing="5">
+                  <FormControl>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <Input 
+                      id="email" 
+                      type="text" 
+                      onChange = {(e) => setEmail(e.target.value)}
+                      value = {email}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Input 
+                      id="password" 
+                      type="password"
+                      onChange = {(e) => setPass(e.target.value)}
+                    />
+                  </FormControl>
+                </Stack>
+                <Divider />
+                <Stack spacing="6">
+                  <Button
+                    variant="primary"
+                    style={{
+                      background: 'blue',
+                      color: 'white',
+                      margin: '10px',
+                    }}
+                    onClick = {handleSubmit}
+                    disabled = {isLoading}
+                  >
+                    Sign in
+                  </Button>
+                  {error && <div className="error">(error)</div>}
+                </Stack>
               </Stack>
-            </Stack>
-          </Box>
+            </Box>
+          </flex>
         </Stack>
       </Container>
     </ChakraProvider>

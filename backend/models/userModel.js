@@ -73,8 +73,6 @@ userSchema.statics.signup = async function(email, password, userName, fullName, 
     const uniquify = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, uniquify)
     
-    console.log(await this.create({ email, password: hash, userName, fullName, age, sports}))
-
     const userData = await this.create({ email, password: hash, userName, fullName, age, sports})
     
     return userData

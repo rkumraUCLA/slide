@@ -1,6 +1,9 @@
 // App.js
 import React from 'react';
+import {useLogout} from './hooks/useLogout'
+import { useAuthContext } from './hooks/useAuthContext';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import Login from './Components/Login';
 import MyEvents from './Components/My Events';
@@ -15,22 +18,29 @@ import UserMatching from './Components/UserMatching';
 import './App.css';
 
 function App() {
+  const {logout} = useLogout()
+  const {user} = useAuthContext()
+
+  const handleLogout = () => {
+    logout()
+  }
+
   return (
     <ChakraProvider>
       <CSSReset />
       <div className="app">
         <Router>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/myevents" element={<MyEvents />} />
+            <Route path="/login" element={user ? <Navigate to ="/myevents"></Navigate>: <Login />} />
+            <Route path="/myevents" element={user ? <MyEvents />: <Navigate to ="/login"></Navigate>} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/findevents" element={<FindEvents />} />
-            <Route path="/usermatching" element={<UserMatching />} />
+            <Route path="/profile" element={user ? <Profile />: <Navigate to ="/login"></Navigate>} />
+            <Route path="/findevents" element={user ? <FindEvents />: <Navigate to ="/login"></Navigate>} />
+            <Route path="/usermatching" element={user ? <UserMatching />: <Navigate to ="/login"></Navigate>} />
             {/* Updated Route for EventDetails */}
-            <Route path="/event/:eventId" element={<EventDetails />} />
+            <Route path="/event/:eventId" element={user ? <EventDetails />: <Navigate to ="/login"></Navigate>} />
           </Routes>
           <div className="topnav">
             <NavLink to="/" exact activeClassName="active">
@@ -43,17 +53,30 @@ function App() {
             <NavLink to="/findevents" activeClassName="active">
               Find Events
             </NavLink>
-            <NavLink to="/myevents" activeClassName="active">
-              My Events
-            </NavLink>
-            <NavLink to="/profile" activeClassName="active">
-              Profile
-            </NavLink>
-            <div style={{ marginLeft: 'auto' }}>
-              <NavLink to="/login" activeClassName="active">
-                Login
-              </NavLink>
-            </div>
+            {user &&(
+              <div>
+                <NavLink to="/myevents" activeClassName="active">
+                  My Events
+                </NavLink>
+                <NavLink to="/profile" activeClassName="active">
+                  Profile
+                </NavLink>
+              </div>
+            )}
+            {!user &&(
+              <div style={{ marginLeft: 'auto' }}>
+                <NavLink to="/login" activeClassName="active">
+                  Login
+                </NavLink>
+              </div>
+            )}
+            {user && (
+              <div style={{ marginLeft: 'auto' }}>
+                <button onClick={handleLogout} style={{ backgroundColor: 'white', color: 'black', border: '1px solid black' }}>
+                  Logout    
+                </button>
+              </div>
+            )}
           </div>
         </Router>
       </div>

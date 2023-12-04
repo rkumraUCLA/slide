@@ -3,13 +3,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChakraProvider, Box, Text, Button } from '@chakra-ui/react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function FindEvents() {
   const [events, setEvents] = useState(null);
+  const {user} = useAuthContext()
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch('/api/events/');
+      const response = await fetch('/api/events/') //, {
+      //   headers: {
+      //     'Authorization': 'Bearer ${user.token}'
+      //   }
+      // })
       const json = await response.json();
 
       if (response.ok) {
@@ -18,7 +24,10 @@ function FindEvents() {
       }
     };
 
-    fetchEvents();
+    if(user){
+      fetchEvents();
+    }
+
   }, []);
 
   return (
