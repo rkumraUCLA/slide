@@ -1,48 +1,49 @@
+// FindEvents.js
+
 import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Box, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { ChakraProvider, Box, Text, Button } from '@chakra-ui/react';
 
 function FindEvents() {
-  const [error, setError] = useState(null);
+  const [events, setEvents] = useState(null);
 
   useEffect(() => {
-    fetch('/api/events')
-      .then((response) => {
-        console.log('Response:', response);
+    const fetchEvents = async () => {
+      const response = await fetch('/api/events/');
+      const json = await response.json();
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+      if (response.ok) {
+        setEvents(json);
+        console.log(json);
+      }
+    };
 
-        const contentType = response.headers.get('Content-Type');
-
-        if (!contentType || !contentType.includes('text/html')) {
-          throw new Error('Invalid content type. Expected HTML.');
-        }
-
-        return response.text();
-      })
-      .then((htmlData) => {
-        console.log('HTML Content:', htmlData);
-        document.getElementById('yourHtmlContainerId').innerHTML = htmlData;
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setError(error.message);
-      });
+    fetchEvents();
   }, []);
 
   return (
     <ChakraProvider>
-      <Box textAlign="center" paddingTop="20">
-        <Text fontSize="2xl"></Text>
-        {error ? (
-          <p>Error fetching events: {error}</p>
-        ) : (
-          <div id="yourHtmlContainerId"></div>
-        )}
+      <Box className='home' mt={20} ml={4} mr={4}>
+        <Box className='events'>
+          {events &&
+            events.map((event) => (
+              <Box key={event._id} p={4} borderWidth="1px" borderRadius="md" mb={4}>
+                <Text fontSize="lg" fontWeight="bold">
+                  {event.title}
+                </Text>
+                <Text>
+                  Sport: {event.sport}, Open Spots: {event.spotsOpen}
+                </Text>
+                <Link to={`/event/${event._id}`}>
+                  <Button mt={2} colorScheme="teal" size="sm">
+                    View Details
+                  </Button>
+                </Link>
+              </Box>
+            ))}
+        </Box>
       </Box>
     </ChakraProvider>
   );
-}
-
+};
 export default FindEvents;

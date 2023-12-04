@@ -1,8 +1,10 @@
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import Login from './Components/Login';
 import MyEvents from './Components/My Events';
+import EventDetails from './Components/EventDetails';
 import logo from './Images/logo.png';
 import Signup from './Components/Signup';
 import Home from './Components/Home';
@@ -15,7 +17,7 @@ import './App.css';
 function App() {
   return (
     <ChakraProvider>
-      <CSSReset /> 
+      <CSSReset />
       <div className="app">
         <Router>
           <Routes>
@@ -27,13 +29,15 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/findevents" element={<FindEvents />} />
             <Route path="/usermatching" element={<UserMatching />} />
+            {/* Updated Route for EventDetails */}
+            <Route path="/event/:eventId" element={<EventDetails />} />
           </Routes>
-
           <div className="topnav">
             <NavLink to="/" exact activeClassName="active">
-              <img src={logo} 
-              alt="Home" 
-              style={{ width: '70px', height: '2%', marginRight: '0px' }}
+              <img
+                src={logo}
+                alt="Home"
+                style={{ width: '70px', height: '2%', marginRight: '0px' }}
               />
             </NavLink>
             <NavLink to="/findevents" activeClassName="active">
@@ -42,11 +46,8 @@ function App() {
             <NavLink to="/myevents" activeClassName="active">
               My Events
             </NavLink>
-            <NavLink to='/profile' activeClassName="active">
+            <NavLink to="/profile" activeClassName="active">
               Profile
-            </NavLink>
-            <NavLink to='/usermatching' activeClassName="active">
-              Match With Users!
             </NavLink>
             <div style={{ marginLeft: 'auto' }}>
               <NavLink to="/login" activeClassName="active">
