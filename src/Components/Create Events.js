@@ -13,14 +13,15 @@ import {
 } from '@chakra-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
 
-function CreateEvent() {
+const CreateEvent = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [title, setTitle] = useState('');
   const [sport, setSport] = useState('');
   const [eventDate, setEventDate] = useState('');
-  const [peopleNeeded, setPeopleNeeded] = useState('');
+  const [spotsTotal, setPeopleNeeded] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate();
 
@@ -28,9 +29,31 @@ function CreateEvent() {
     setCurrentQuestion(currentQuestion + 1);
   };
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async(e) => {
+    e.preventDefault()
     // Perform action to create the event using the provided data
-    console.log('Event created:', { title, sport, eventDate, peopleNeeded, description });
+    console.log({ title, sport, spotsTotal, description, eventDate });
+
+    const newEvent = { title, sport, spotsTotal, description, eventDate }
+    
+    const response = await fetch('/api/events',{
+      method:'POST',
+      body: JSON.stringify(newEvent),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const json = await response.json()
+
+    if (!response.ok) {
+      setError(json.error)
+    }
+    if (response.ok){
+      setError(null)
+      console.log('new event added', json)
+    }
+
     setIsSubmitted(true);
   };
 
@@ -120,8 +143,8 @@ function CreateEvent() {
       case 4:
         return (
           <FormControl>
-            <FormLabel htmlFor="peopleNeeded">Amount of People Needed</FormLabel>
-            <Input id="peopleNeeded" type="number" value={peopleNeeded} onChange={(e) => setPeopleNeeded(e.target.value)} />
+            <FormLabel htmlFor="spotsTotal">Amount of People Needed</FormLabel>
+            <Input id="spotsTotal" type="number" value={spotsTotal} onChange={(e) => setPeopleNeeded(e.target.value)} />
           </FormControl>
         );
       case 5:
