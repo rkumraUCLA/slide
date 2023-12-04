@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [username, setUser] = useState('')
+  const [userName, setUser] = useState('')
   const [fullName, setName] = useState('')
   const [age, setAge] = useState('')
   const [sports, setSports] = useState('')
@@ -32,7 +32,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await signup(email, password, username, fullName, age, sports)
+    await signup(email, password, userName, fullName, age, sports)
   }
 
   const sportsOptions = [
@@ -143,7 +143,7 @@ function Signup() {
               <Stack spacing="6">
                 <Stack spacing="5">
                 <FormControl>
-                    <FormLabel htmlFor="fullname">Full Name</FormLabel>
+                    <FormLabel htmlFor="fullName">Full Name</FormLabel>
                     <Input 
                       id="fullName" 
                       type="text" 
@@ -154,10 +154,10 @@ function Signup() {
                   <FormControl>
                     <FormLabel>Username</FormLabel>
                     <Input 
-                      id="username" 
+                      id="userName" 
                       type="text" 
                       onChange={(e) => setUser(e.target.value)}
-                      value={username}
+                      value={userName}
                     />
                   </FormControl>
                   <FormControl>

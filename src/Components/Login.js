@@ -96,8 +96,8 @@ function Login() {
             <Stack spacing="6">
               <Stack spacing="5">
                 <FormControl>
-                  <FormLabel htmlFor="username">Username</FormLabel>
-                  <Input id="username" type="text" />
+                  <FormLabel htmlFor="userName">Username</FormLabel>
+                  <Input id="userName" type="text" />
                 </FormControl>
                 <FormControl>
                   <FormLabel htmlFor="password">Password</FormLabel>

@@ -16,22 +16,22 @@ const userSchema = new Schema({
     },
     fullName: {
         type: String,
-        required: true
+        required: false
     },
     userName: {
         type: String,
-        required: true
+        required: false
     },
     sports: {
         type: Array,
         required: false
     },
     age: {
-        type: Number,
-        required: true
+        type: String,
+        required: false
     },
     myEvents: {
-        type: Array,
+        type: String,
         required: false
     },
 }, { timestamps: true })
@@ -53,10 +53,11 @@ userSchema.statics.login = async function(email, password) {
 
     return user
 }
+
 // static signup
 userSchema.statics.signup = async function(email, password, userName, fullName, age, sports) {
     // data validation
-    if (!email || !password || !userName || !fullName) {
+    if (!email || !password || !userName || !fullName || !age || !sports) {
         throw Error('Fields must be filled out')
     }
     if (!validator.isEmail(email)) {
@@ -71,6 +72,8 @@ userSchema.statics.signup = async function(email, password, userName, fullName, 
     // hashing password
     const uniquify = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, uniquify)
+    
+    console.log(await this.create({ email, password: hash, userName, fullName, age, sports}))
 
     const userData = await this.create({ email, password: hash, userName, fullName, age, sports})
     
