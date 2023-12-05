@@ -6,12 +6,7 @@ function Leaderboard() {
   return (
     <ChakraProvider>
       <Box textAlign="center" paddingTop="20">
-        <Text fontSize="2xl">My Events Page</Text>
-        <Link to="/create-event">
-          <Button variant="primary" style={{ background: 'blue', color: 'white', margin: '10px' }}>
-            Create Event
-          </Button>
-        </Link>
+        <Text fontSize="2xl">TODO</Text>
       </Box>
     </ChakraProvider>
   );
