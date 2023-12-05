@@ -56,8 +56,8 @@ function FindEvents() {
               </Box>
             ))}
         </Box>
-        <Footer/>
       </Box>
+      <Footer/>
     </ChakraProvider>
   );
 }
