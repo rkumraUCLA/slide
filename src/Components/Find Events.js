@@ -48,6 +48,9 @@ function FindEvents() {
                 <Text>
                   Open Spots: {event.spotsOpen}
                 </Text>
+                <Text>
+                  Date: {new Date(event.eventDate).toLocaleDateString('en-US')}
+                </Text>
                 <Link to={`/event/${event._id}`}>
                   <Button bgGradient="linear(to-r, #7dd3fc, #075985)" textColor="white" size="sm" mt={2}>
                     View Details

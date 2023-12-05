@@ -47,6 +47,7 @@ const EventDetails = () => {
                 <Text fontSize="bold">Total Spots: {event.spotsTotal}</Text>
                 <Text fontSize="bold">Open Spots: {event.spotsOpen}</Text>
                 <Text fontSize="bold">People Going: {event.usersAssociated}</Text>
+                <Text fontSize="bold">Date: {new Date(event.eventDate).toLocaleDateString('en-US')}</Text>
                 {/* Add other details as needed */}
                 
                 <Link to={`/findevents`}>
