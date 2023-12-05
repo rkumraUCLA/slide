@@ -37,7 +37,7 @@ function App() {
             <Route path="/login" element={user ? <Navigate to ="/myevents"></Navigate>: <Login />} />
             <Route path="/myevents" element={user ? <MyEvents />: <Navigate to ="/login"></Navigate>} />
             <Route path="/signupconfirmed" element={user ? <SignupConfirm />: <Navigate to ="/login"></Navigate>} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/signup" element={user ? <Navigate to ="/findevents"></Navigate> : <Signup />} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/" element={<Home />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
