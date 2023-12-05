@@ -15,6 +15,8 @@ import FindEvents from './Components/Find Events';
 import CreateEvent from './Components/Create Events';
 import Profile from './Components/Profile';
 import UserMatching from './Components/UserMatching';
+import SignupConfirm from './Components/SignupConfirm';
+
 import './App.css';
 
 function App() {
@@ -33,13 +35,13 @@ function App() {
           <Routes>
             <Route path="/login" element={user ? <Navigate to ="/myevents"></Navigate>: <Login />} />
             <Route path="/myevents" element={user ? <MyEvents />: <Navigate to ="/login"></Navigate>} />
+            <Route path="/signupconfirmed" element={user ? <SignupConfirm />: <Navigate to ="/login"></Navigate>} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={user ? <Profile />: <Navigate to ="/login"></Navigate>} />
             <Route path="/findevents" element={user ? <FindEvents />: <Navigate to ="/login"></Navigate>} />
             <Route path="/usermatching" element={user ? <UserMatching />: <Navigate to ="/login"></Navigate>} />
-            {/* Updated Route for EventDetails */}
             <Route path="/event/:eventId" element={user ? <EventDetails />: <Navigate to ="/login"></Navigate>} />
           </Routes>
           <div className="topnav">
