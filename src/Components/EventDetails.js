@@ -58,7 +58,7 @@ const EventDetails = () => {
                 {/* Add margin-left to create space between the two buttons */}
                 <Link to={`/signupconfirmed`} ml={4}> {/* Adjust ml value as needed */}
                     <Button mt={4} bg="#0284c7" color="white" size="sm">
-                        Slide In!
+                        Slide!
                     </Button>
                 </Link>
             </Box>

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { ChakraProvider, Box, Text, Flex, Heading, Icon } from '@chakra-ui/react';
+import { ChakraProvider, Box, Text, Flex, Heading, Icon} from '@chakra-ui/react';
 import { FaPeoplePulling } from 'react-icons/fa6';
 import { FaSearch } from 'react-icons/fa';
 import { GrSchedules } from 'react-icons/gr';
 import Footer from './Footer';
 
 
+
 const FeatureComponent = ({ icon, title, description }) => {
   return (
-    <Box width={{ base: '100%', md: '30%' }} textAlign="center">
+    <Box width={{ base: '100%', md: '30%' }} textAlign="center" animation="featureAnimation 4s infinite" // Adjust the duration as needed
+    >
       <Icon as={icon} boxSize={12} color="#38bdf8" />
       <Heading mt={4} fontSize="3xl" fontWeight="bold" color="black">
         {title}
@@ -19,6 +21,7 @@ const FeatureComponent = ({ icon, title, description }) => {
     </Box>
   );
 };
+
 
 function Home() {
   const [videoError, setVideoError] = useState(false);
