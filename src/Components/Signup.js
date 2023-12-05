@@ -2,6 +2,8 @@ import React from 'react';
 import Select from 'react-select';
 import { useState } from 'react';
 import { useSignup } from "../hooks/useSignup"
+import Footer from './Footer';
+
 
 import {
   Container,
@@ -246,7 +248,7 @@ function Signup() {
                   <Button
                     variant="primary"
                     style={{
-                      background: 'blue',
+                      background: '#075985',
                       color: 'white',
                       margin: '10px',
                     }}
@@ -261,6 +263,7 @@ function Signup() {
             </Box>
           </form>
         </Stack>
+        <Footer/>
       </Container>
     </ChakraProvider>
   );

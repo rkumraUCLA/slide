@@ -1,6 +1,9 @@
 import React from 'react';
 import { useLogin } from '../hooks/useLogin';
 import {useState } from 'react';
+import './styles.css';
+import Footer from './Footer';
+
 
 import {
   Container,
@@ -62,7 +65,7 @@ function Login() {
             </Heading>
             <Text color="muted">Don't have an account?</Text>
             <ChakraLink as={Link} to="/signup">
-              <Button variant="link" colorScheme="black">
+              <Button variant="link" colorScheme="#082f49">
                 Sign up
               </Button>
             </ChakraLink>
@@ -115,7 +118,7 @@ function Login() {
                   <Button
                     variant="primary"
                     style={{
-                      background: 'blue',
+                      background: '#075985',
                       color: 'white',
                       margin: '10px',
                     }}
@@ -124,13 +127,14 @@ function Login() {
                   >
                     Sign in
                   </Button>
-                  {error && <div className="error">(error)</div>}
+                  {error && <div className="error" style={{ color: 'red'}}>**No information entered**</div>}
                 </Stack>
               </Stack>
             </Box>
           </flex>
         </Stack>
       </Container>
+      <Footer/>
     </ChakraProvider>
   );
 }

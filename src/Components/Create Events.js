@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
 
+
 const CreateEvent = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [title, setTitle] = useState('');
