@@ -16,6 +16,7 @@ import CreateEvent from './Components/Create Events';
 import Profile from './Components/Profile';
 import UserMatching from './Components/UserMatching';
 import SignupConfirm from './Components/SignupConfirm';
+import Leaderboard from './Components/Leaderboard';
 
 import './App.css';
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/" element={<Home />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/profile" element={user ? <Profile />: <Navigate to ="/login"></Navigate>} />
             <Route path="/findevents" element={user ? <FindEvents />: <Navigate to ="/login"></Navigate>} />
             <Route path="/usermatching" element={user ? <UserMatching />: <Navigate to ="/login"></Navigate>} />
@@ -51,6 +53,9 @@ function App() {
                 alt="Home"
                 style={{ width: '70px', height: '2%', marginRight: '0px' }}
               />
+            </NavLink>
+            <NavLink to="/leaderboard" activeClassName="active">
+              Leaderboard
             </NavLink>
             <NavLink to="/findevents" activeClassName="active">
               Find Events
