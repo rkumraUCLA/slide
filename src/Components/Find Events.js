@@ -37,14 +37,17 @@ function FindEvents() {
           {events &&
             events.map((event) => (
               <Box key={event._id} p={4} borderWidth="1px" borderRadius="md" mb={4}>
-                <Text fontSize="lg" fontWeight="bold">
+                <Text fontSize="lg" fontWeight="bold" mb={2}>
                   {event.title}
                 </Text>
                 <Text>
-                  Sport: {event.sport}, Open Spots: {event.spotsOpen}
+                  Sport: {event.sport}
+                </Text>
+                <Text>
+                  Open Spots: {event.spotsOpen}
                 </Text>
                 <Link to={`/event/${event._id}`}>
-                  <Button mt={2} colorScheme="teal" size="sm">
+                  <Button colorScheme="teal" size="sm" mt={2}>
                     View Details
                   </Button>
                 </Link>
@@ -54,5 +57,6 @@ function FindEvents() {
       </Box>
     </ChakraProvider>
   );
-};
+}
+
 export default FindEvents;
