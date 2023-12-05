@@ -34,6 +34,10 @@ const userSchema = new Schema({
         type: String,
         required: false
     },
+    eventsCreated: {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true })
 
 userSchema.statics.login = async function(email, password) {
