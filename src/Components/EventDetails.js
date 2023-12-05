@@ -44,6 +44,11 @@ const EventDetails = () => {
                     Find More Events
                 </Button>
             </Link>
+            <Link to={`/signupconfirmed`}>
+                <Button mt={4} colorScheme="teal" size="sm">
+                    Slide In!
+                </Button>
+            </Link>
         </Box>
     );
 };
