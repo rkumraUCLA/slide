@@ -32,11 +32,33 @@ const signupUser = async (req, res) => {
 
 // return users
 const getUsers = async(req, res) => {
-    const users = await User.find({}).sort({createdAt: -1})
-    res.status(200).json(users)
+    const { sports } = req.body
+    try {
+        const users = await User.findMatches(sports)
+        if (!users){
+            res.status(200).json("No matches")
+        }
+        else {
+            res.status(200).json({users})
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+    //res.status(200).json(users)
+}
+
+const getLeaderboard = async(req, res) => {
+    const users = await User.find().sort({ eventsCreated: -1 })
+    if (!users) {
+        res.status(400).json({error})
+    }
+    else {
+        res.status(200).json(users)
+    }
 }
 
 module.exports = { 
     loginUser, 
     signupUser, 
-    getUsers}
+    getUsers,
+    getLeaderboard}
