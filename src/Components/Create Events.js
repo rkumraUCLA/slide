@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
-import { useParams, Link } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Container,
