@@ -70,27 +70,41 @@ const EventDetails = () => {
     }
 
     return (
-        <Box mt="20">
-            <Heading as="h2" size="xl">
-                {event.title}
-            </Heading>
-            <Text>Sport: {event.sport}</Text>
-            <Text>Description: {event.description}</Text>
-            <Text>Total Spots: {event.spotsTotal}</Text>
-            <Text>Open Spots: {event.spotsOpen}</Text>
-            <Text>People Going: {event.usersAssociated}</Text>
-            {/* Add other details as needed */}
-            
-            <Link to={`/findevents`}>
-                <Button mt={4} colorScheme="teal" size="sm">
-                    Find More Events
-                </Button>
-            </Link>
-            <Link to={`/signupconfirmed`}>
-                <Button mt={4} colorScheme="teal" size="sm" onClick={handleSubmit}>
-                    Slide In!
-                </Button>
-            </Link>
+        <Box
+            bgGradient="linear(to-r, #7dd3fc, #075985)"
+            color="white"
+            p="8"
+            borderRadius="lg"
+            boxShadow="xl"
+            maxW="xl"
+            mx="auto"
+            mt="20"
+        >
+            <Box maxW="md">
+                <Heading as="h2" size="xl">
+                    {event.title}
+                </Heading>
+                <Text fontSize="bold">Sports: {event.sport}</Text>
+                <Text fontSize="bold">Description: {event.description}</Text>
+                <Text fontSize="bold">Total Spots: {event.spotsTotal}</Text>
+                <Text fontSize="bold">Open Spots: {event.spotsOpen}</Text>
+                <Text fontSize="bold">People Going: {event.usersAssociated}</Text>
+                <Text fontSize="bold">Date: {new Date(event.eventDate).toLocaleDateString('en-US')}</Text>
+                {/* Add other details as needed */}
+                
+                <Link to={`/findevents`}>
+                    <Button mt={4} bg="#075985" color="white" size="sm">
+                        Find More Events
+                    </Button>
+                </Link>
+                
+                {/* Add margin-left to create space between the two buttons */}
+                <Link to={`/signupconfirmed`} ml={4}> {/* Adjust ml value as needed */}
+                    <Button mt={4} bg="#0284c7" color="white" size="sm">
+                        Slide!
+                    </Button>
+                </Link>
+            </Box>
         </Box>
     );
 };

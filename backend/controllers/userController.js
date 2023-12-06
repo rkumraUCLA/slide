@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const User = require('../models/userModel')
+const Events = require('../models/eventModel')
 const jwt = require('jsonwebtoken')
 
 const createToken = (_id) => {
@@ -20,9 +21,9 @@ const loginUser = async (req, res) => {
 
 // signup user
 const signupUser = async (req, res) => {
-    const { email, password, userName, fullName, age, sports } = req.body
+    const { email, password, userName, fullName, age, sports, eventsCreated } = req.body
     try {
-        const user = await User.signup(email, password, userName, fullName, age, sports)
+        const user = await User.signup(email, password, userName, fullName, age, sports, eventsCreated)
         const token = createToken(user._id)
         res.status(200).json({email, token,  userId: user._id })
     } catch (error) {
@@ -32,10 +33,46 @@ const signupUser = async (req, res) => {
 
 // return users
 const getUsers = async(req, res) => {
-    const users = await User.find({}).sort({createdAt: -1})
-    res.status(200).json(users)
+    const { sports } = req.body
+    try {
+        const users = await User.findMatches(sports)
+        if (!users){
+            res.status(200).json("No matches")
+        }
+        else {
+            res.status(200).json({users})
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+    //res.status(200).json(users)
 }
 
+const getLeaderboard = async(req, res) => {
+    const users = await User.find().sort({ eventsCreated: -1 })
+    if (!users) {
+        res.status(400).json({error})
+    }
+    else {
+        res.status(200).json(users)
+    }
+}
+
+const getUserEvents = async(req, res) => {
+    userId = req.params;
+    try {
+        const user = await User.findById(userId);
+    
+        if (!user) {
+          throw new Error('User not found');
+        }
+    
+        const eventIds = user.myEvents; // Assuming myEvents is an array of event IDs
+    
+        // Assuming you have an Event model with event information
+        const Event = require('path/to/your/event/model'); // Replace with the actual path to your event model
+        const events = await Event.find({ _id: { $in: eventIds } });
+    
 
 const updateUser = async (req, res) => {
     const { id } = req.params
@@ -71,10 +108,19 @@ const addEvent = async (req, res) => {
 
 }
 
+        return events;
+      } catch (error) {
+        console.error('Error fetching registered events:', error.message);
+        throw error; // Handle the error as needed in your application
+      }
+}
 module.exports = { 
     loginUser, 
     signupUser, 
     getUsers,
+    getLeaderboard,
+    getUserEvents
+,
     updateUser,
     addEvent
 }

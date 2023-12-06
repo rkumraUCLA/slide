@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #082f49;
   width: 100%; 
   display: flex;
   align-items: center; 
@@ -23,11 +23,13 @@
 }
 
 .topnav a:hover {
-  background-color: #007bffbb;
+  background-color: #0284c7;
   color: #333;
 }
 
 .topnav a.active {
-  background-color: #007bffbb;
-  color: #fff;
+  background-color: #0284c7;
+  color: #f0f9ff;
 }
+
+

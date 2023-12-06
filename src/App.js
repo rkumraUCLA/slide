@@ -1,4 +1,5 @@
 // App.js
+import { Button } from '@chakra-ui/react';
 import React from 'react';
 import {useLogout} from './hooks/useLogout'
 import { useAuthContext } from './hooks/useAuthContext';
@@ -78,10 +79,21 @@ function App() {
               </div>
             )}
             {user && (
-              <div style={{ marginLeft: 'auto' }}>
-                <button onClick={handleLogout} style={{ backgroundColor: 'white', color: 'black', border: '1px solid black' }}>
-                  Logout    
-                </button>
+            <div style={{ marginLeft: 'auto' }}>
+              <NavLink to="/login" activeClassName="active">
+                <Button
+                onClick={handleLogout}
+                color="white"
+                bgColor="transparent"
+                _hover={{bgColor: "transparent"}}
+                fontSize={'md'}
+                textDecoration={'none'}
+                textAlign={'center'}
+                fontWeight={'normal'}
+                >
+                  Logout
+                </Button>
+              </NavLink>
               </div>
             )}
           </div>

@@ -2,6 +2,8 @@ import React from 'react';
 import Select from 'react-select';
 import { useState } from 'react';
 import { useSignup } from "../hooks/useSignup"
+import Footer from './Footer';
+
 
 import {
   Container,
@@ -20,20 +22,63 @@ import {
 import { ChakraProvider } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-
 function Signup() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [userName, setUser] = useState('')
-  const [fullName, setName] = useState('')
-  const [age, setAge] = useState('')
-  const [sports, setSports] = useState('')
-  const {signup, error, isLoading} = useSignup()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userName, setUser] = useState('');
+  const [fullName, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [sports, setSports] = useState('');
+  const { signup, error, isLoading } = useSignup();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await signup(email, password, userName, fullName, age, sports)
-  }
+    e.preventDefault();
+
+    // Validation checks
+    const validationErrors = [];
+
+    if (!fullName.includes(' ')) {
+      validationErrors.push('Full Name must include first name and last name separated by a space.');
+    }
+
+    if (userName.length < 5) {
+      validationErrors.push('Username must be at least 5 characters.');
+    }
+
+    if (parseInt(age, 10) < 18 || isNaN(parseInt(age, 10))) {
+      validationErrors.push('Age must be at least 18 and a valid number.');
+    }
+
+    // Password validation
+    if (password.length < 8) {
+      validationErrors.push('Password must be at least 8 characters.');
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      validationErrors.push('Password must contain at least one uppercase letter.');
+    }
+
+    if (!/[a-z]/.test(password)) {
+      validationErrors.push('Password must contain at least one lowercase letter.');
+    }
+
+    if (!/\d/.test(password)) {
+      validationErrors.push('Password must contain at least one digit.');
+    }
+
+    if(sports.length < 5) {
+      validationErrors.push('Must choose at least 5 sports')
+    }
+
+    if (validationErrors.length > 0) {
+      // Display all validation errors
+      alert(validationErrors.join('\n'));
+      return;
+    }  
+
+    // If no validation errors, proceed with signup
+    await signup(email, password, userName, fullName, age, sports);
+  };
 
   const sportsOptions = [
     { value: 'aikido', label: 'Aikido' },
@@ -80,7 +125,6 @@ function Signup() {
   ]
 
   return (
-    
     <ChakraProvider>
       <Container
         maxW="lg"
@@ -117,7 +161,7 @@ function Signup() {
               </Button>
             </ChakraLink>
           </Flex>
-          <form onSubmit = {handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <Box
               py={{
                 base: '0',
@@ -142,47 +186,47 @@ function Signup() {
             >
               <Stack spacing="6">
                 <Stack spacing="5">
-                <FormControl>
+                  <FormControl>
                     <FormLabel htmlFor="fullName">Full Name</FormLabel>
-                    <Input 
-                      id="fullName" 
-                      type="text" 
+                    <Input
+                      id="fullName"
+                      type="text"
                       onChange={(e) => setName(e.target.value)}
                       value={fullName}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Username</FormLabel>
-                    <Input 
-                      id="userName" 
-                      type="text" 
+                    <Input
+                      id="userName"
+                      type="text"
                       onChange={(e) => setUser(e.target.value)}
                       value={userName}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="email">Email</FormLabel>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      onChange={(e) => setEmail(e.target.value)} 
-                      value = {email}
+                    <Input
+                      id="email"
+                      type="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="password">Password</FormLabel>
-                    <Input 
-                      id="password" 
-                      type="password" 
+                    <Input
+                      id="password"
+                      type="password"
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="Age">Age</FormLabel>
-                    <Input 
-                      id="age" 
-                      type="number" 
+                    <Input
+                      id="age"
+                      type="number"
                       onChange={(e) => setAge(e.target.value)}
                       value={age}
                     />
@@ -190,14 +234,13 @@ function Signup() {
                   <FormControl>
                     <FormLabel htmlFor="sports">Sports You Play</FormLabel>
                     <Select
-                      id="sports" 
-                      options={sportsOptions} 
+                      id="sports"
+                      options={sportsOptions}
                       isMulti
-                      onChange={(selectedOptions) => 
-                        setSports(selectedOptions.map(option => option.value))
+                      onChange={(selectedOptions) =>
+                        setSports(selectedOptions.map((option) => option.value))
                       }
-                    >
-                    </Select>
+                    ></Select>
                   </FormControl>
                 </Stack>
                 <Divider />
@@ -205,21 +248,22 @@ function Signup() {
                   <Button
                     variant="primary"
                     style={{
-                      background: 'blue',
+                      background: '#075985',
                       color: 'white',
                       margin: '10px',
                     }}
-                    onClick= {handleSubmit}
-                    disabled = {isLoading}
+                    onClick={handleSubmit}
+                    disabled={isLoading}
                   >
                     Sign up
                   </Button>
-                  {error && <div className="error">(error)</div>}
+                  {error && <div className="error">{error}</div>}
                 </Stack>
               </Stack>
             </Box>
-          </form>  
+          </form>
         </Stack>
+        <Footer/>
       </Container>
     </ChakraProvider>
   );

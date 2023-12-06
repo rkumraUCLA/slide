@@ -1,0 +1,20 @@
+/* Gradient BG for Login Page */
+.Login {
+    margin: 0;
+    height: 100vh;
+    width:100%; 
+    background: linear-gradient(to right, #f0f9ff, #075985) !important;
+    /* Add other styles as needed */
+  }
+  
+  /* Gradient for Page 2 */
+  .page2 {
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    /* Add other styles as needed */
+  }
+
+  .Footer {
+    z-index: -1;
+  }
+
+  

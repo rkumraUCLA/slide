@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
+// Profile.jsx
+import React, { useState } from 'react';
 import {
   ChakraProvider,
   Box,
@@ -14,11 +14,13 @@ import {
   VStack,
   HStack,
 } from '@chakra-ui/react';
+import Footer from './Footer';
+
 
 function Profile() {
-
   const [formData, setFormData] = useState({
-    photo: null,
+    firstName: '',
+    lastName: '',
     sports: [],
     age: '',
     location: '',
@@ -59,14 +61,6 @@ function Profile() {
     });
   };
 
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      photo: file,
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can perform any action with the form data here (e.g., send it to the server).
@@ -75,52 +69,63 @@ function Profile() {
 
   return (
     <ChakraProvider>
-      <Center minH="100vh">
-        <VStack spacing="8" align="start" p="8" borderRadius="lg" boxShadow="lg" w="xl" maxW="90%" >
-          <Text fontSize="5xl" fontWeight="bold" mb="5">
+      <Center bg="#f0f9ff">
+        <VStack mt="20" spacing="4" align="center" justify="center" p="4" borderRadius="lg" boxShadow="lg" w="lg" maxW="100%" bg="whiteAlpha.800">
+          <Text fontSize="2xl" fontWeight="bold" mb="3">
             Profile Settings
           </Text>
+
           <form onSubmit={handleSubmit}>
-            <FormControl id="photo" isRequired mb="7">
-              <FormLabel fontSize="2xl">Profile Photo</FormLabel>
+            <FormControl id="firstName" isRequired mb="3">
+              <FormLabel fontSize="lg">First Name</FormLabel>
               <Input
-                type="file"
-                name="photo"
-                onChange={handlePhotoChange}
-                fontSize="xl"
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                fontSize="lg"
               />
             </FormControl>
 
-            <FormControl id="favoriteSports" isRequired mb="7">
-  <FormLabel fontSize="2xl">Favorite Sports</FormLabel>
-  <Select
-    name="favoriteSports"
-    isMulti  // Enable multiple selections
-    value={formData.sports.map((sport) => ({ value: sport.sport, label: sport.sport }))} // Format the value for multi-select
-    onChange={handleSportChange}
-    fontSize="3xl"
-    options={[
-      { value: 'football', label: 'Football' },
-      { value: 'basketball', label: 'Basketball' },
-      { value: 'tennis', label: 'Tennis' },
-      // Add more sports as needed
-    ].map((option) => ({ ...option, label: <span>{option.label}</span> }))} // Ensure each option has a label property
-  />
-</FormControl>
+            <FormControl id="lastName" isRequired mb="3">
+              <FormLabel fontSize="lg">Last Name</FormLabel>
+              <Input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                fontSize="lg"
+              />
+            </FormControl>
+
+            <FormControl id="favoriteSports" isRequired mb="3">
+              <FormLabel fontSize="lg">Favorite Sports</FormLabel>
+              <Select
+                name="favoriteSports"
+                isMulti
+                value={formData.sports.map((sport) => ({ value: sport.sport, label: sport.sport }))}
+                onChange={handleSportChange}
+                fontSize="lg"
+                options={[
+                  { value: 'football', label: 'Football' },
+                  { value: 'basketball', label: 'Basketball' },
+                  { value: 'tennis', label: 'Tennis' },
+                  // Add more sports as needed
+                ].map((option) => ({ ...option, label: <span>{option.label}</span> }))}
+              />
+            </FormControl>
 
             {formData.sports.map((sport, index) => (
               <HStack key={index} spacing="4">
                 <FormControl id={`skillLevel-${index}`} isRequired>
-                  <FormLabel fontSize="2xl">
+                  <FormLabel fontSize="lg">
                     Skill Level for {sport.sport}
                   </FormLabel>
                   <Select
                     name={`skillLevel-${index}`}
                     value={sport.skillLevel}
-                    onChange={(e) =>
-                      handleSkillLevelChange(index, parseInt(e.target.value))
-                    }
-                    fontSize="2xl"
+                    onChange={(e) => handleSkillLevelChange(index, parseInt(e.target.value))}
+                    fontSize="lg"
                   >
                     {[1, 2, 3, 4, 5].map((level) => (
                       <option key={level} value={level}>
@@ -132,8 +137,8 @@ function Profile() {
               </HStack>
             ))}
 
-            <FormControl id="age" isRequired >
-              <FormLabel fontSize="2xl">Age</FormLabel>
+            <FormControl id="age" isRequired mb="3">
+              <FormLabel fontSize="lg">Age</FormLabel>
               <Input
                 type="number"
                 name="age"
@@ -143,8 +148,8 @@ function Profile() {
               />
             </FormControl>
 
-            <FormControl id="location" isRequired>
-              <FormLabel fontSize="2xl">Location</FormLabel>
+            <FormControl id="location" isRequired mb="3">
+              <FormLabel fontSize="lg">Location</FormLabel>
               <Input
                 type="text"
                 name="location"
@@ -154,8 +159,8 @@ function Profile() {
               />
             </FormControl>
 
-            <FormControl id="bio" isRequired>
-              <FormLabel fontSize="2xl">Bio</FormLabel>
+            <FormControl id="bio" isRequired mb="3">
+              <FormLabel fontSize="lg">Bio</FormLabel>
               <Textarea
                 name="bio"
                 value={formData.bio}
@@ -164,39 +169,15 @@ function Profile() {
               />
             </FormControl>
 
-            <Button type="submit" colorScheme="teal" mt="6" fontSize="xl">
+            <Button align="center" type="submit" bg="#075985" color="#075985" textColor="white" mt="4" fontSize="lg">
               Save Profile
             </Button>
           </form>
         </VStack>
       </Center>
+      <Footer/>
     </ChakraProvider>
   );
 }
 
 export default Profile;
-
-
-
-
-
-/*
-
-import React from 'react';
-import { ChakraProvider, Box, Text } from '@chakra-ui/react';
-
-
-function Profile() {
-    return (
-        <ChakraProvider>
-          <Box textAlign="center" paddingTop="20">
-            <Text fontSize="2xl">Implement Profile Settings</Text>
-          </Box>
-        </ChakraProvider>
-      );
-
-}
-
-export default Profile
-
-*/
