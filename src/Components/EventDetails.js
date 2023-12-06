@@ -7,7 +7,7 @@ const EventDetails = () => {
     const [event, setEvent] = useState(null);
     const userId = localStorage.getItem('userId');
     const [error, setError] = useState(null)
-    const jsonId = {id: eventId}
+    const jsonId = {myEvents: eventId}
     console.log(JSON.stringify(jsonId))
 
     const handleSubmit = async(e) =>{
@@ -29,9 +29,9 @@ const EventDetails = () => {
         //   console.log('user added to event', json)
         // }
         try {
-            const response2 = await fetch(`/api/user/${userId}/addEvent`,{
+            const response2 = await fetch(`/api/user/addEvent/${userId}`,{
                 method:'PATCH',
-                body: JSON.stringify(eventId),
+                body: JSON.stringify(jsonId),
                 headers: {
                   'Content-Type': 'application/json'
                 }
@@ -100,7 +100,7 @@ const EventDetails = () => {
                 
                 {/* Add margin-left to create space between the two buttons */}
                 <Link to={`/signupconfirmed`} ml={4}> {/* Adjust ml value as needed */}
-                    <Button mt={4} bg="#0284c7" color="white" size="sm">
+                    <Button mt={4} bg="#0284c7" color="white" size="sm" onClick={handleSubmit}>
                         Slide!
                     </Button>
                 </Link>

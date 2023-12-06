@@ -32,9 +32,13 @@ const userSchema = new Schema({
     },
     myEvents: {
         type: Array,
-        required: true,
-        default: []
+        required: false
     },
+    
+    // [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Event' // Replace 'Event' with the name of your event model, if applicable
+    // }],
     eventsCreated: {
         type: Number,
         required: true,

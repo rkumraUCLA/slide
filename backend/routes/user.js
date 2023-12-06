@@ -2,7 +2,7 @@ const express = require('express')
 const route  = express.Router()
 
 // controller functions
-const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard } = require('../controllers/userController')
+const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard , getUserEvents, getAllUsers} = require('../controllers/userController')
 
 // login route
 route.post('/login', loginUser)
@@ -19,7 +19,11 @@ route.get('/getLeaderboard', getLeaderboard)
 route.patch('/updateUser', updateUser)
 
 // addevents
-route.patch('/:id/addEvent', addEvent)
+route.patch('/addEvent/:id', addEvent)
 
 route.get('/getUserEvents/:id', getUserEvents)
+
+route.get('/getAllUsers', getAllUsers)
+
+
 module.exports = route
