@@ -12,7 +12,7 @@ const loginUser = async (req, res) => {
         const user = await User.login(email, password)
 
         const token = createToken(user._id)
-        res.status(200).json({email, token})
+        res.status(200).json({email, token,  userId: user._id })
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -24,7 +24,7 @@ const signupUser = async (req, res) => {
     try {
         const user = await User.signup(email, password, userName, fullName, age, sports)
         const token = createToken(user._id)
-        res.status(200).json({email, token})
+        res.status(200).json({email, token,  userId: user._id })
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -36,7 +36,45 @@ const getUsers = async(req, res) => {
     res.status(200).json(users)
 }
 
+
+const updateUser = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'No such User'})
+    }
+
+    const event = await User.findOneAndUpdate({_id: id}, {
+        ...req.body
+    })
+    if (!event) {
+        return res.status(404).json({error: 'No such User'})
+    }
+    res.status(200).json(event)
+}
+
+const addEvent = async (req, res) => {
+    const userId = req.params.userId;
+    const { eventId } = req.body;  // Get the event ID from request body
+
+    try{
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $push: { myEvents: eventToAdd } },
+            { new: true} // Options
+        );
+        res.status(200).json(updatedUser);
+    }
+    catch{
+        res.status(500).json({ message: 'Error adding event', error: error });
+    }
+
+}
+
 module.exports = { 
     loginUser, 
     signupUser, 
-    getUsers}
+    getUsers,
+    updateUser,
+    addEvent
+}
