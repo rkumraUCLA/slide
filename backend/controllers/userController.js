@@ -108,7 +108,7 @@ const addEvent = async (req, res) => {
 
     if (mongoose.Types.ObjectId.isValid(userId)){// && mongoose.Types.ObjectId.isValid(eventId)) {
         db.collection('users')
-            .updateOne({_id: new ObjectId(userId)}, {$push: {myEvents: eventId}})
+            .updateOne({_id: new ObjectId(userId)}, {$push: {myEvents: eventId}, $inc: { eventsCreated: 1 }})
             .then(result =>{
                 res.status(200).json(result)
             })
