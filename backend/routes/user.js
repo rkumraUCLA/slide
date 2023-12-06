@@ -2,7 +2,7 @@ const express = require('express')
 const route  = express.Router()
 
 // controller functions
-const { loginUser, signupUser, getUsers, getLeaderboard } = require('../controllers/userController')
+const { loginUser, signupUser, getUsers, getLeaderboard, getUserEvents } = require('../controllers/userController')
 
 // login route
 route.post('/login', loginUser)
@@ -14,4 +14,6 @@ route.post('/signup', signupUser)
 route.get('/getUsers', getUsers)
 
 route.get('/getLeaderboard', getLeaderboard)
+
+route.get('/getUserEvents/:id', getUserEvents)
 module.exports = route
