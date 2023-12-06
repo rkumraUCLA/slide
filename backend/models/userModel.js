@@ -31,11 +31,17 @@ const userSchema = new Schema({
         required: false
     },
     myEvents: {
-        type: String,
+        type: Array,
         required: false
     },
+    
+    // [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Event' // Replace 'Event' with the name of your event model, if applicable
+    // }],
     eventsCreated: {
         type: Number,
+        required: true,
         default: 0
     }
 }, { timestamps: true })
@@ -59,7 +65,7 @@ userSchema.statics.login = async function(email, password) {
 }
 
 // static signup
-userSchema.statics.signup = async function(email, password, userName, fullName, age, sports) {
+userSchema.statics.signup = async function(email, password, userName, fullName, age, sports, eventsCreated) {
     // data validation
     if (!email || !password || !userName || !fullName || !age || !sports) {
         throw Error('Fields must be filled out')
@@ -77,7 +83,7 @@ userSchema.statics.signup = async function(email, password, userName, fullName, 
     const uniquify = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, uniquify)
     
-    const userData = await this.create({ email, password: hash, userName, fullName, age, sports})
+    const userData = await this.create({ email, password: hash, userName, fullName, age, sports, eventsCreated})
     
     return userData
 }

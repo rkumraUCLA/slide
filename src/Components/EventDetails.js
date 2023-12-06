@@ -5,6 +5,48 @@ import { Box, Heading, Text, Button } from '@chakra-ui/react';
 const EventDetails = () => {
     const { eventId } = useParams();
     const [event, setEvent] = useState(null);
+    const userId = localStorage.getItem('userId');
+    const [error, setError] = useState(null)
+    const jsonId = {myEvents: eventId}
+    console.log(JSON.stringify(jsonId))
+
+    const handleSubmit = async(e) =>{
+        // const response = await fetch(`/api/events/${eventId}`,{
+        //     method:'PATCH',
+        //     body: JSON.stringify(jsonId),
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //     }
+        // })
+
+        // const json = await response.json()
+
+        // if (!response.ok) {
+        //   setError(json.error)
+        // }
+        // if (response.ok){
+        //   setError(null)
+        //   console.log('user added to event', json)
+        // }
+        try {
+            const response2 = await fetch(`/api/user/addEvent/${userId}`,{
+                method:'PATCH',
+                body: JSON.stringify(jsonId),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+            })
+    
+            if (!response2.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const updatedUser = await response2.json();
+            console.log('User updated:', updatedUser);
+        } catch (error) {
+            console.error('Failed to add event:', error);
+        }
+    }
 
     useEffect(() => {
         // Function to fetch event details based on eventId
@@ -58,7 +100,7 @@ const EventDetails = () => {
                 
                 {/* Add margin-left to create space between the two buttons */}
                 <Link to={`/signupconfirmed`} ml={4}> {/* Adjust ml value as needed */}
-                    <Button mt={4} bg="#0284c7" color="white" size="sm">
+                    <Button mt={4} bg="#0284c7" color="white" size="sm" onClick={handleSubmit}>
                         Slide!
                     </Button>
                 </Link>
