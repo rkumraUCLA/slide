@@ -9,7 +9,7 @@ import Footer from './Footer';
 function Leaderboard() {
   const [users, setUsers] = useState(null);
   const {user} = useAuthContext()
-
+  
   useEffect(() => {
     const fetchLeaderboard = async () => {
       const response = await fetch('/api/user/getLeaderboard') //, {

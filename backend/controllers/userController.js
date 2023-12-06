@@ -72,7 +72,10 @@ const getUserEvents = async(req, res) => {
         // Assuming you have an Event model with event information
         const Event = require('path/to/your/event/model'); // Replace with the actual path to your event model
         const events = await Event.find({ _id: { $in: eventIds } });
-    
+    } catch (error) {
+        console.log(error)
+    }
+}    
 
 const updateUser = async (req, res) => {
     const { id } = req.params
@@ -101,13 +104,6 @@ const addEvent = async (req, res) => {
             { new: true} // Options
         );
         res.status(200).json(updatedUser);
-    }
-    catch{
-        res.status(500).json({ message: 'Error adding event', error: error });
-    }
-
-}
-
         return events;
       } catch (error) {
         console.error('Error fetching registered events:', error.message);
@@ -119,8 +115,7 @@ module.exports = {
     signupUser, 
     getUsers,
     getLeaderboard,
-    getUserEvents
-,
+    getUserEvents,
     updateUser,
     addEvent
 }
