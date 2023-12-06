@@ -1,5 +1,6 @@
 // Profile.jsx
-import React, { useState } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+import React, { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Text,
@@ -17,13 +18,33 @@ import Footer from './Footer';
 
 
 function Profile() {
+  const { user } = useAuthContext();
+  const [userProf, setUser] = useState(null);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const userId = localStorage.getItem('userId');
+      const response = await fetch(`/api/user/getUserById/${userId}`);
+      const json = await response.json();
+
+      if (response.ok) {
+        setFormData({
+          firstName: json.fullName.split(' ')[0] || '',
+          lastName: json.fullName.split(' ')[1] || '',
+          sports: json.sports || [],
+          age: json.age || '',
+        });
+      }
+    };
+
+    if (user) {
+      fetchProfile();
+    }
+  }, []);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     sports: [],
-    age: '',
-    location: '',
-    bio: '',
+    age: ''
   });
 
   const handleInputChange = (e) => {
@@ -142,27 +163,6 @@ function Profile() {
                 type="number"
                 name="age"
                 value={formData.age}
-                onChange={handleInputChange}
-                fontSize="lg"
-              />
-            </FormControl>
-
-            <FormControl id="location" isRequired mb="3">
-              <FormLabel fontSize="lg">Location</FormLabel>
-              <Input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                fontSize="lg"
-              />
-            </FormControl>
-
-            <FormControl id="bio" isRequired mb="3">
-              <FormLabel fontSize="lg">Bio</FormLabel>
-              <Textarea
-                name="bio"
-                value={formData.bio}
                 onChange={handleInputChange}
                 fontSize="lg"
               />
