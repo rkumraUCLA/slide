@@ -32,10 +32,25 @@ function Leaderboard() {
   }, []);
   return (
     <ChakraProvider>
-      <Box bg="#f0f9ff" textAlign="center" paddingTop="20">
-        <Text fontSize="2xl">TODO</Text>
-        <Footer/>
+      <Box bg="#f0f9ff" className='home' mt={20} ml={4} mr={4}>
+        <Box className='events'>
+          {users &&
+            users.map((userD) => (
+              <Box key={userD._id} p={4} borderWidth="1px" borderRadius="md" mb={4}>
+                <Text fontSize="lg" fontWeight="bold" mb={2}>
+                  {userD.fullName}
+                </Text>
+                <Text>
+                  Age: {userD.age}
+                </Text>
+                <Text>
+                  Events Created: {userD.eventsCreated}
+                </Text>
+              </Box>
+            ))}
+        </Box>
       </Box>
+      <Footer/>
     </ChakraProvider>
   );
 }
