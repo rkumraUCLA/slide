@@ -19,9 +19,13 @@ const eventSchema = new Schema({
         type: Number,
         required: false
     },
-    lookingFor: { // Maybe like looking for only girls or only competitive?
+    Location: {
         type: String,
-        required: false
+        required: true
+    },
+    Time: {
+        type: String,
+        required: true
     },
     usersAssociated: {
         type: Array,
