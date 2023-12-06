@@ -32,7 +32,7 @@ function Leaderboard() {
               <Th>Rank</Th>
               <Th>Full Name</Th>
               <Th>Age</Th>
-              <Th>Events Created</Th>
+              <Th>Events Attended</Th>
             </Tr>
           </Thead>
           <Tbody>
