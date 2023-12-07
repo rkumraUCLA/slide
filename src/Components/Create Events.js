@@ -74,8 +74,8 @@ const CreateEvent = () => {
         }
         break;
       case 6:
-        if (description.length <= 49) {
-          setError('Description must be at least 50 characters.');
+        if (description.length <= 9) {
+          setError('Description must be at least 10 characters.');
           return;
         }
         break;
@@ -168,10 +168,10 @@ const CreateEvent = () => {
   };
 
   const isValidAnswerToQuestion6 = () => {
-    if (description.length >= 50) {
+    if (description.length >= 10) {
       return true;
     }
-    setError('Description must be at least 50 characters.');
+    setError('Description must be at least 10 characters.');
     return false;
   };
 
