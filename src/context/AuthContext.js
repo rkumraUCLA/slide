@@ -1,4 +1,3 @@
-import { getActiveElement } from '@testing-library/user-event/dist/utils'
 import { createContext, useReducer , useEffect} from 'react'
 
 export const AuthContext = createContext()

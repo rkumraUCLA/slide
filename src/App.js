@@ -18,6 +18,7 @@ import Profile from './Components/Profile';
 import UserMatching from './Components/UserMatching';
 import SignupConfirm from './Components/SignupConfirm';
 import Leaderboard from './Components/Leaderboard';
+import FindUsers from './Components/FindUsers';
 import { Menu, MenuButton, MenuList, MenuItem, Avatar } from '@chakra-ui/react';
 
 import './App.css';
@@ -51,13 +52,14 @@ function App() {
             <Route path="/myevents" element={user ? <MyEvents />: <Navigate to ="/login"></Navigate>} />
             <Route path="/signupconfirmed" element={user ? <SignupConfirm />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/signup" element={user ? <Navigate to ="/findevents"></Navigate> : <Signup />} />
+            <Route path="/findusers" element={user ? <FindUsers /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
-            <Route path="/" element={<Home />} />
             <Route path="/leaderboard" element={user ? <Leaderboard /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/profile" element={user ? <Profile />: shouldRedirect ? <Navigate to ="/login"/>: null} />
             <Route path="/findevents" element={user ? <FindEvents /> : shouldRedirect ? <Navigate to="/login" /> : null}/>
             <Route path="/usermatching" element={user ? <UserMatching />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/event/:eventId" element={user ? <EventDetails />: shouldRedirect ? <Navigate to ="/login" /> : null} />
+            <Route path="/" element={<Home />} />
           </Routes>
           <div className="topnav">
             <NavLink to="/" exact activeClassName="active">
@@ -69,6 +71,9 @@ function App() {
             </NavLink>
             <NavLink to="/leaderboard" activeClassName="active">
               Leaderboard
+            </NavLink>
+            <NavLink to= "/findusers" activeClassName="active">
+              FindUsers
             </NavLink>
             <NavLink to="/findevents" activeClassName="active">
               Find Events

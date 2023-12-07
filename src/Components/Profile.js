@@ -27,9 +27,8 @@ function Profile() {
       const json = await response.json();
   
       if (response.ok) {
-        setUser({
-          firstName: json.fullName.split(' ')[0] || '',
-          lastName: json.fullName.split(' ')[1] || '',
+        setFormData({
+          name: json.fullName,
           sports: json.sports || [],
           age: json.age || '',
         });
@@ -41,8 +40,7 @@ function Profile() {
     }
   }, [user]);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     sports: [],
     age: ''
   });
@@ -60,26 +58,26 @@ function Profile() {
       (option) => option.value
     );
 
-    const sportsWithSkill = selectedOptions.map((sport) => ({
-      sport,
-      skillLevel: 1,
-    }));
+    // const sportsWithSkill = selectedOptions.map((sport) => ({
+    //   sport,
+    //   skillLevel: 1,
+    // }));
 
     setFormData({
       ...formData,
-      sports: sportsWithSkill,
+      sports: selectedOptions,
     });
   };
 
-  const handleSkillLevelChange = (index, value) => {
-    const updatedSports = [...formData.sports];
-    updatedSports[index].skillLevel = value;
+  // const handleSkillLevelChange = (index, value) => {
+  //   const updatedSports = [...formData.sports];
+  //   updatedSports[index].skillLevel = value;
 
-    setFormData({
-      ...formData,
-      sports: updatedSports,
-    });
-  };
+  //   setFormData({
+  //     ...formData,
+  //     sports: updatedSports,
+  //   });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -96,12 +94,12 @@ function Profile() {
           </Text>
 
           <form onSubmit={handleSubmit}>
-            <FormControl id="firstName" isRequired mb="3">
+            <FormControl id="name" isRequired mb="3">
               <FormLabel fontSize="lg">First Name</FormLabel>
               <Input
                 type="text"
-                name="firstName"
-                value={formData.firstName}
+                name="name"
+                value={formData.name}
                 onChange={handleInputChange}
                 fontSize="lg"
               />
@@ -135,7 +133,7 @@ function Profile() {
               />
             </FormControl>
 
-            {formData.sports.map((sport, index) => (
+            {/* {formData.sports.map((sport, index) => (
               <HStack key={index} spacing="4">
                 <FormControl id={`skillLevel-${index}`} isRequired>
                   <FormLabel fontSize="lg">
@@ -155,7 +153,7 @@ function Profile() {
                   </Select>
                 </FormControl>
               </HStack>
-            ))}
+            ))} */}
 
             <FormControl id="age" isRequired mb="3">
               <FormLabel fontSize="lg">Age</FormLabel>
