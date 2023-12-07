@@ -25,7 +25,7 @@ function Profile() {
       const userId = localStorage.getItem('userId');
       const response = await fetch(`/api/user/getUserById/${userId}`);
       const json = await response.json();
-
+  
       if (response.ok) {
         setFormData({
           name: json.fullName,
@@ -34,11 +34,11 @@ function Profile() {
         });
       }
     };
-
+  
     if (user) {
       fetchProfile();
     }
-  }, []);
+  }, [user]);
   const [formData, setFormData] = useState({
     name: '',
     sports: [],

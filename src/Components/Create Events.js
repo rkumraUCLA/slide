@@ -1,7 +1,9 @@
+import sportsOptions from './sportsOptions';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker'
-import { useParams} from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import { useParams } from 'react-router-dom';
+import Select from 'react-select';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Container,
@@ -16,7 +18,6 @@ import {
 } from '@chakra-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
 
-
 const CreateEvent = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [title, setTitle] = useState('');
@@ -25,16 +26,25 @@ const CreateEvent = () => {
   const [spotsTotal, setPeopleNeeded] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
   const { eventId } = useParams();
   const userId = localStorage.getItem('userId');
-  const jsonId = {myEvents: eventId}
+  const jsonId = { myEvents: eventId };
+  const [location, setLocation] = useState('');
+  const [eventTime, setEventTime] = useState(null);
 
   const navigate = useNavigate();
 
+  function arrayToString(arr, separator = ', ') {
+    if (!Array.isArray(arr)) {
+      return String(arr); // If it's not an array, convert to a string
+    }
+    return arr.join(separator);
+  }
+
   const handleNextQuestion = () => {
     setError(null);
-  
+
     // Check for errors based on the current question
     switch (currentQuestion) {
       case 0:
@@ -44,81 +54,103 @@ const CreateEvent = () => {
         }
         break;
       case 1:
-        if (!/^[a-zA-Z]+$/.test(sport)) {
-          setError('Sport must contain only letters.');
+        if (sport.length === 0) {
+          setError('Please choose at least one sport.');
           return;
         }
         break;
       case 2:
         if (eventDate == null) {
-          setError('Please enter a date')
+          setError('Please enter a date');
           return;
         }
         break;
       case 3:
         if (isNaN(spotsTotal) || spotsTotal <= 0 || spotsTotal > 1000000) {
-          setError('Amount of People Needed must be a number between 1 and 1,000,000.');
+          setError(
+            'Amount of People Needed must be a number between 1 and 1,000,000.'
+          );
           return;
         }
         break;
+      case 6:
+        if (description.length <= 9) {
+          setError('Description must be at least 10 characters.');
+          return;
+        }
+        break;
+
       case 4:
-        if (description.length <= 49) {
-          console.log("HELLO")
-          setError('Description must be at least 50 characters.');
+        if (location.length === 0) {
+          setError('Please enter a location.');
           return;
         }
         break;
+
+      case 5:
+        if (eventTime == null) {
+          setError('Please enter a time.');
+          return;
+        }
+        break;
+
       default:
         break;
     }
-  
-    // If no errors, proceed to the next question
+
     setCurrentQuestion(currentQuestion + 1);
   };
-  
 
-  const handleCreateEvent = async(e) => {
+  const handleCreateEvent = async (e) => {
     setError(null);
-    e.preventDefault()
+    e.preventDefault();
     // Perform action to create the event using the provided data
     console.log({ title, sport, spotsTotal, description, eventDate });
 
-    const newEvent = { title, sport, spotsTotal, description, eventDate }
-    
-    const response = await fetch('/api/events',{
-      method:'POST',
+    const newEvent = {
+      title,
+      sport,
+      spotsTotal,
+      description,
+      eventDate,
+      location,
+      eventTime,
+    };
+
+    const response = await fetch('/api/events', {
+      method: 'POST',
       body: JSON.stringify(newEvent),
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        'Content-Type': 'application/json',
+      },
+    });
 
-    const json = await response.json()
+    const json = await response.json();
 
     if (!response.ok) {
-      setError(json.error)
+      setError(json.error);
     }
-    if (response.ok){
+    if (response.ok) {
       try {
-        const response2 = await fetch(`/api/user/addEvent/${userId}`,{
-            method:'PATCH',
-            body: JSON.stringify(jsonId),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-        })
+        const response2 = await fetch(`/api/user/addEvent/${userId}`, {
+          method: 'PATCH',
+          body: JSON.stringify(jsonId),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
         if (!response2.ok) {
-            throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok');
         }
 
         const updatedUser = await response2.json();
         console.log('User updated:', updatedUser);
-    } catch (error) {
+      } catch (error) {
         console.error('Failed to add event:', error);
-    }
-      setError(null)
-      console.log('new event added', json)
+      }
+      setError(null);
+      console.log('new event added', json);
     }
 
     setIsSubmitted(true);
@@ -135,11 +167,11 @@ const CreateEvent = () => {
     setIsSubmitted(false);
   };
 
-  const isValidAnswerToQuestion4 = () => {
-    if(description.length >= 50) {
+  const isValidAnswerToQuestion6 = () => {
+    if (description.length >= 10) {
       return true;
     }
-    setError('Description must be at least 50 characters.');
+    setError('Description must be at least 10 characters.');
     return false;
   };
 
@@ -172,7 +204,7 @@ const CreateEvent = () => {
         </Stack>
       );
     }
-  
+
     return (
       <Button
         variant="primary"
@@ -182,14 +214,14 @@ const CreateEvent = () => {
           margin: '10px',
         }}
         onClick={(e) => {
-          if (currentQuestion < 4) {
+          if (currentQuestion < 6) {
             handleNextQuestion();
-          } else if (currentQuestion === 4 && isValidAnswerToQuestion4()) {
+          } else if (currentQuestion === 6 && isValidAnswerToQuestion6()) {
             handleCreateEvent(e);
           }
         }}
       >
-        {currentQuestion < 4 ? 'Next Question' : 'Submit'}
+        {currentQuestion < 6 ? 'Next Question' : 'Submit'}
       </Button>
     );
   };
@@ -204,14 +236,31 @@ const CreateEvent = () => {
         return (
           <FormControl>
             <FormLabel htmlFor="title">Title</FormLabel>
-            <Input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <Input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </FormControl>
         );
       case 1:
         return (
           <FormControl>
-            <FormLabel htmlFor="sport">Sport</FormLabel>
-            <Input id="sport" type="text" value={sport} onChange={(e) => setSport(e.target.value)} />
+            <FormLabel htmlFor="sport">Choose a Sport</FormLabel>
+            {console.log('Options:', sportsOptions)}
+            <Select
+              id="sports"
+              options={sportsOptions}
+              isMulti
+              onChange={(selectedOptions) =>
+                setSport(
+                  arrayToString(
+                    selectedOptions.map((option) => option.label)
+                  )
+                )
+              }
+            ></Select>
           </FormControl>
         );
       case 2:
@@ -232,10 +281,15 @@ const CreateEvent = () => {
         return (
           <FormControl>
             <FormLabel htmlFor="spotsTotal">Amount of People Needed</FormLabel>
-            <Input id="spotsTotal" type="number" value={spotsTotal} onChange={(e) => setPeopleNeeded(e.target.value)} />
+            <Input
+              id="spotsTotal"
+              type="number"
+              value={spotsTotal}
+              onChange={(e) => setPeopleNeeded(e.target.value)}
+            />
           </FormControl>
         );
-      case 4:
+      case 6:
         return (
           <FormControl>
             <FormLabel htmlFor="description">Description</FormLabel>
@@ -249,12 +303,39 @@ const CreateEvent = () => {
             />
           </FormControl>
         );
+      case 4:
+        return (
+          <FormControl>
+            <FormLabel htmlFor="location">Location</FormLabel>
+            <Input
+              id="location"
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          </FormControl>
+      );
+
+      case 5:
+        return (
+          <FormControl>
+            <FormLabel htmlFor="eventTime">Time</FormLabel>
+            <DatePicker
+              id="eventTime"
+              selected={eventTime ? new Date(eventTime) : null}
+              onChange={(time) => setEventTime(time)}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              dateFormat="h:mm aa"
+            />
+          </FormControl>
+      );
+
       default:
         return null;
     }
   };
-
-
 
   return (
     <ChakraProvider>
@@ -314,7 +395,7 @@ const CreateEvent = () => {
               {renderCurrentQuestion()}
               <Divider />
               <Stack spacing="6">
-              {error && (
+                {error && (
                   <p style={{ color: 'red', marginTop: '10px' }}>
                     Error: {error}
                   </p>
@@ -327,6 +408,6 @@ const CreateEvent = () => {
       </Container>
     </ChakraProvider>
   );
-}
+};
 
 export default CreateEvent;

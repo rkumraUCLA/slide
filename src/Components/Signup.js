@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { useState } from 'react';
 import { useSignup } from "../hooks/useSignup"
 import Footer from './Footer';
-
+import sportsOptions from './sportsOptions';
 
 import {
   Container,
@@ -40,7 +40,7 @@ function Signup() {
     if (!fullName.includes(' ')) {
       validationErrors.push('Full Name must include first name and last name separated by a space.');
     }
-
+    
     if (userName.length < 5) {
       validationErrors.push('Username must be at least 5 characters.');
     }
@@ -80,49 +80,6 @@ function Signup() {
     await signup(email, password, userName, fullName, age, sports);
   };
 
-  const sportsOptions = [
-    { value: 'aikido', label: 'Aikido' },
-    { value: 'archery', label: 'Archery' },
-    { value: 'badminton', label: 'Badminton' },
-    { value: 'baseball', label: 'Baseball' },
-    { value: 'basketball', label: 'Basketball' },
-    { value: 'bmx', label: 'BMX' },
-    { value: 'boxing', label: 'Boxing' },
-    { value: 'cricket', label: 'Cricket' },
-    { value: 'cycling', label: 'Cycling' },
-    { value: 'diving', label: 'Diving' },
-    { value: 'equestrian', label: 'Equestrian' },
-    { value: 'fencing', label: 'Fencing' },
-    { value: 'football', label: 'Football' },
-    { value: 'golf', label: 'Golf' },
-    { value: 'gymnastics', label: 'Gymnastics' },
-    { value: 'handball', label: 'Handball' },
-    { value: 'ice hockey', label: 'Ice Hockey' },
-    { value: 'judo', label: 'Judo' },
-    { value: 'karate', label: 'Karate' },
-    { value: 'lacrosse', label: 'Lacrosse' },
-    { value: 'martial arts', label: 'Martial Arts' },
-    { value: 'mountain biking', label: 'Mountain Biking' },
-    { value: 'rowing', label: 'Rowing' },
-    { value: 'rugby', label: 'Rugby' },
-    { value: 'sailing', label: 'Sailing' },
-    { value: 'skateboarding', label: 'Skateboarding' },
-    { value: 'skiing', label: 'Skiing' },
-    { value: 'snowboarding', label: 'Snowboarding' },
-    { value: 'soccer', label: 'Soccer' },
-    { value: 'surfing', label: 'Surfing' },
-    { value: 'swimming', label: 'Swimming' },
-    { value: 'table tennis', label: 'Table Tennis' },
-    { value: 'taekwondo', label: 'Taekwondo' },
-    { value: 'tennis', label: 'Tennis' },
-    { value: 'track and field', label: 'Track and Field' },
-    { value: 'triathlon', label: 'Triathlon' },
-    { value: 'volleyball', label: 'Volleyball' },
-    { value: 'water polo', label: 'Water Polo' },
-    { value: 'weightlifting', label: 'Weightlifting' },
-    { value: 'wrestling', label: 'Wrestling' },
-    { value: 'squash', label: 'Squash' }, // Adjusted to maintain alphabetical order
-  ]
 
   return (
     <ChakraProvider>
@@ -233,6 +190,7 @@ function Signup() {
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="sports">Sports You Play</FormLabel>
+                    {console.log('Options:', sportsOptions)} {/* Add this line */}
                     <Select
                       id="sports"
                       options={sportsOptions}
