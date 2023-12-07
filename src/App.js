@@ -95,10 +95,10 @@ function App() {
             {user && (
             <div style={{ position: 'absolute', right: '0'}}>
               <Menu>
-                <MenuButton as={Button} bgColor="transparent">
+                <MenuButton as={Button} bgColor="transparent" _hover={{bgColor: 'transparent'}} _active={{bgColor: 'transparent'}}>
                 <Avatar size="lg" src={"/pfp1.png"} name="Default Profile" />
                 </MenuButton>
-                <MenuList>
+                <MenuList >
                   <MenuItem onClick={handleProfile}>Profile</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
