@@ -19,7 +19,7 @@ import UserMatching from './Components/UserMatching';
 import SignupConfirm from './Components/SignupConfirm';
 import Leaderboard from './Components/Leaderboard';
 import FindUsers from './Components/FindUsers';
-import { Menu, MenuButton, MenuList, MenuItem, Avatar } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList, MenuItem, Avatar, Box } from '@chakra-ui/react';
 
 import './App.css';
 
@@ -95,8 +95,14 @@ function App() {
             {user && (
             <div style={{ position: 'absolute', right: '0'}}>
               <Menu>
-                <MenuButton as={Button} bgColor="transparent" _hover={{bgColor: 'transparent'}} _active={{bgColor: 'transparent'}}>
-                <Avatar size="lg" src={"/pfp1.png"} name="Default Profile" />
+                <MenuButton as={Button} rounded="full" bgColor="transparent"
+                    _hover={{ boxShadow: 'none' }}  
+                    focusBorderColor="none" 
+                    focusShadow="none" 
+                    outline="none">
+               <Box display="inline-block">
+                  <Avatar size="lg" src="/pfp1.png" name="Default Profile" />
+                </Box>
                 </MenuButton>
                 <MenuList >
                   <MenuItem onClick={handleProfile}>Profile</MenuItem>
