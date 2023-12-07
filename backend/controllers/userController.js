@@ -67,8 +67,24 @@ const getLeaderboard = async(req, res) => {
     }
 }
 
+// get user events
 const getUserEvents = async(req, res) => {
-    const userId = req.params;
+    const userId = req.params.id
+
+    if (mongoose.Types.ObjectId.isValid(userId)){// && mongoose.Types.ObjectId.isValid(eventId)) {
+        db.collection('users')
+            .updateOne({_id: new ObjectId(userId)}, {$push: {myEvents: eventId}})
+            .then(result =>{
+                res.status(200).json(result)
+            })
+            .catch(err =>{
+                res.status(500).json({error: 'Could not update the document'})
+            })
+    } else {
+        res.status(400).json({ error: 'Invalid user or event ID' });
+    }
+
+    
     try {
         const user = await User.findById(userId);
     
@@ -86,22 +102,7 @@ const getUserEvents = async(req, res) => {
     }
 }    
 
-const updateUser = async (req, res) => {
-    const { id } = req.params
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'No such User'})
-    }
-
-    const event = await User.findOneAndUpdate({_id: id}, {
-        ...req.body
-    })
-    if (!event) {
-        return res.status(404).json({error: 'No such User'})
-    }
-    res.status(200).json(event)
-}
-
+// add an event to a user's myEvents
 const addEvent = async (req, res) => {
     const userId = req.params.id
     const eventId = req.body.myEvents; // Assuming you send the event ID in the request body
@@ -119,6 +120,23 @@ const addEvent = async (req, res) => {
         res.status(400).json({ error: 'Invalid user or event ID' });
     }
 };
+
+const updateUser = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'No such User'})
+    }
+
+    const event = await User.findOneAndUpdate({_id: id}, {
+        ...req.body
+    })
+    if (!event) {
+        return res.status(404).json({error: 'No such User'})
+    }
+    res.status(200).json(event)
+}
+
 
 // const addEvent = async (req, res) => {
 //     const userId = req.params.id;
