@@ -25,7 +25,7 @@ function FindEvents() {
 
   return (
     <ChakraProvider>
-      <Box mt="100px" bg="white" className='home' ml={4} mr={4}>
+      <Box mt="102px" bg="white" className='home' ml={4} mr={4}>
         <Box vclassName='events' display="grid" gridTemplateColumns="repeat(3, 1fr)" gap={4}>
           {events &&
             events.map((event) => (
