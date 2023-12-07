@@ -73,7 +73,7 @@ function App() {
               Leaderboard
             </NavLink>
             <NavLink to= "/findusers" activeClassName="active">
-              FindUsers
+              Find Users
             </NavLink>
             <NavLink to="/findevents" activeClassName="active">
               Find Events
