@@ -4,13 +4,11 @@
 .topnav {
   position: fixed;
   top: 0;
-  overflow: hidden;
   background-color: #082f49;
   width: 100%; 
   display: flex;
   align-items: center; 
-  height: 60px; 
-  z-index: 1000;
+  height: 80px; 
 }
 
 .topnav a {
@@ -24,12 +22,13 @@
 
 .topnav a:hover {
   background-color: #0284c7;
+  overflow: hidden;
   color: #333;
 }
 
 .topnav a.active {
   background-color: #0284c7;
+  overflow: hidden;
+  z-index: -1;
   color: #f0f9ff;
 }
-
-

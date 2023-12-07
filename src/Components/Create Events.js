@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
+import { useParams} from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Container,
@@ -25,6 +26,9 @@ const CreateEvent = () => {
   const [description, setDescription] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(null)
+  const { eventId } = useParams();
+  const userId = localStorage.getItem('userId');
+  const jsonId = {myEvents: eventId}
 
   const navigate = useNavigate();
 
@@ -95,6 +99,24 @@ const CreateEvent = () => {
       setError(json.error)
     }
     if (response.ok){
+      try {
+        const response2 = await fetch(`/api/user/addEvent/${userId}`,{
+            method:'PATCH',
+            body: JSON.stringify(jsonId),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response2.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const updatedUser = await response2.json();
+        console.log('User updated:', updatedUser);
+    } catch (error) {
+        console.error('Failed to add event:', error);
+    }
       setError(null)
       console.log('new event added', json)
     }

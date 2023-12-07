@@ -1,6 +1,6 @@
 // App.js
 import { Button } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {useLogout} from './hooks/useLogout'
 import { useAuthContext } from './hooks/useAuthContext';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import Login from './Components/Login';
 import MyEvents from './Components/My Events';
 import EventDetails from './Components/EventDetails';
-import logo from './Images/logo.png';
+import logo from './Images/logo2.png';
 import Signup from './Components/Signup';
 import Home from './Components/Home';
 import FindEvents from './Components/Find Events';
@@ -18,16 +18,28 @@ import Profile from './Components/Profile';
 import UserMatching from './Components/UserMatching';
 import SignupConfirm from './Components/SignupConfirm';
 import Leaderboard from './Components/Leaderboard';
+import { Menu, MenuButton, MenuList, MenuItem, Avatar } from '@chakra-ui/react';
 
 import './App.css';
+
 
 function App() {
   const {logout} = useLogout()
   const {user} = useAuthContext()
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const handleLogout = () => {
     logout()
   }
+
+  const handleProfile = () => {
+    window.location.href="http://localhost:3000/profile";
+  }
+
+    useEffect(() => {
+    setShouldRedirect(true);
+  }, []);
+  
 
   return (
     <ChakraProvider>
@@ -37,22 +49,22 @@ function App() {
           <Routes>
             <Route path="/login" element={user ? <Navigate to ="/myevents"></Navigate>: <Login />} />
             <Route path="/myevents" element={user ? <MyEvents />: <Navigate to ="/login"></Navigate>} />
-            <Route path="/signupconfirmed" element={user ? <SignupConfirm />: <Navigate to ="/login"></Navigate>} />
+            <Route path="/signupconfirmed" element={user ? <SignupConfirm />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/signup" element={user ? <Navigate to ="/findevents"></Navigate> : <Signup />} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/" element={<Home />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={user ? <Profile />: <Navigate to ="/login"></Navigate>} />
-            <Route path="/findevents" element={user ? <FindEvents />: <Navigate to ="/login"></Navigate>} />
-            <Route path="/usermatching" element={user ? <UserMatching />: <Navigate to ="/login"></Navigate>} />
-            <Route path="/event/:eventId" element={user ? <EventDetails />: <Navigate to ="/login"></Navigate>} />
+            <Route path="/leaderboard" element={user ? <Leaderboard /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
+            <Route path="/profile" element={user ? <Profile />: shouldRedirect ? <Navigate to ="/login"/>: null} />
+            <Route path="/findevents" element={user ? <FindEvents /> : shouldRedirect ? <Navigate to="/login" /> : null}/>
+            <Route path="/usermatching" element={user ? <UserMatching />: shouldRedirect ? <Navigate to ="/login" /> : null} />
+            <Route path="/event/:eventId" element={user ? <EventDetails />: shouldRedirect ? <Navigate to ="/login" /> : null} />
           </Routes>
           <div className="topnav">
             <NavLink to="/" exact activeClassName="active">
               <img
                 src={logo}
                 alt="Home"
-                style={{ width: '70px', height: '2%', marginRight: '0px' }}
+                style={{width: '69px', height: '2%', marginRight: '0px'}}
               />
             </NavLink>
             <NavLink to="/leaderboard" activeClassName="active">
@@ -66,9 +78,6 @@ function App() {
                 <NavLink to="/myevents" activeClassName="active">
                   My Events
                 </NavLink>
-                <NavLink to="/profile" activeClassName="active">
-                  Profile
-                </NavLink>
               </div>
             )}
             {!user &&(
@@ -79,22 +88,17 @@ function App() {
               </div>
             )}
             {user && (
-            <div style={{ marginLeft: 'auto' }}>
-              <NavLink to="/login" activeClassName="active">
-                <Button
-                onClick={handleLogout}
-                color="white"
-                bgColor="transparent"
-                _hover={{bgColor: "transparent"}}
-                fontSize={'md'}
-                textDecoration={'none'}
-                textAlign={'center'}
-                fontWeight={'normal'}
-                >
-                  Logout
-                </Button>
-              </NavLink>
-              </div>
+            <div style={{ position: 'absolute', right: '0'}}>
+              <Menu>
+                <MenuButton as={Button} bgColor="transparent">
+                <Avatar size="sm" name="Icon"></Avatar>
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            </div>
             )}
           </div>
         </Router>

@@ -12,23 +12,6 @@ const EventDetails = () => {
     console.log(userId)
 
     const handleSubmit = async(e) =>{
-        // const response = await fetch(`/api/events/${eventId}`,{
-        //     method:'PATCH',
-        //     body: JSON.stringify(jsonId),
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     }
-        // })
-
-        // const json = await response.json()
-
-        // if (!response.ok) {
-        //   setError(json.error)
-        // }
-        // if (response.ok){
-        //   setError(null)
-        //   console.log('user added to event', json)
-        // }
         try {
             const response2 = await fetch(`/api/user/addEvent/${userId}`,{
                 method:'PATCH',

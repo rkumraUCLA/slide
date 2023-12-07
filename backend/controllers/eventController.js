@@ -1,5 +1,6 @@
 const Event = require('../models/eventModel')
 const mongoose = require('mongoose')
+const { addEvent } = require('./userController')
 
 // get all events
 const getAllEvents = async (req, res) => {

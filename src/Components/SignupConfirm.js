@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { Box, Text, Button } from '@chakra-ui/react';
 
 function SignupConfirm() {
   console.log("HELLO");
@@ -16,6 +17,11 @@ function SignupConfirm() {
       <Text fontSize="xl" fontWeight="bold" color="#082f49">
         Congratulations! You have slid into this event!
       </Text>
+      <Link to={`/findevents`}>
+      <Button mt={4} bg="#075985" color="white" size="sm">
+        Find More Events
+      </Button>
+    </Link>
     </Box>
   );
 }
