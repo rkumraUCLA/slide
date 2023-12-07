@@ -103,8 +103,9 @@ function Home() {
             title="Slide"
             description="Slide right into fun events, new friendships, and unique experiences!"
           />
-        </Flex>  
-        
+
+            {/* How It Works Section */}
+        </Flex> 
       </Box>
       <Footer/>
     </ChakraProvider>

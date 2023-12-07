@@ -19,7 +19,9 @@ import UserMatching from './Components/UserMatching';
 import SignupConfirm from './Components/SignupConfirm';
 import Leaderboard from './Components/Leaderboard';
 import FindUsers from './Components/FindUsers';
-import { Menu, MenuButton, MenuList, MenuItem, Avatar } from '@chakra-ui/react';
+import FindUserMatch from './Components/FindUserMatch';
+
+import { Menu, MenuButton, MenuList, MenuItem, Avatar, Box } from '@chakra-ui/react';
 
 import './App.css';
 
@@ -53,11 +55,11 @@ function App() {
             <Route path="/signupconfirmed" element={user ? <SignupConfirm />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/signup" element={user ? <Navigate to ="/findevents"></Navigate> : <Signup />} />
             <Route path="/findusers" element={user ? <FindUsers /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
+            <Route path="/findusermatch" element={user ? <FindUserMatch /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/leaderboard" element={user ? <Leaderboard /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/profile" element={user ? <Profile />: shouldRedirect ? <Navigate to ="/login"/>: null} />
             <Route path="/findevents" element={user ? <FindEvents /> : shouldRedirect ? <Navigate to="/login" /> : null}/>
-            <Route path="/usermatching" element={user ? <UserMatching />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/event/:eventId" element={user ? <EventDetails />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/" element={<Home />} />
           </Routes>
@@ -73,7 +75,7 @@ function App() {
               Leaderboard
             </NavLink>
             <NavLink to= "/findusers" activeClassName="active">
-              FindUsers
+              Find Users
             </NavLink>
             <NavLink to="/findevents" activeClassName="active">
               Find Events
@@ -95,10 +97,12 @@ function App() {
             {user && (
             <div style={{ position: 'absolute', right: '0'}}>
               <Menu>
-                <MenuButton as={Button} bgColor="transparent">
-                <Avatar size="sm" name="Icon"></Avatar>
+              <MenuButton as={Button} bgColor="transparent" _hover={{bgColor: 'transparent'}} _active={{bgColor: 'transparent'}}>
+               <Box display="inline-block">
+                  <Avatar size="lg" src="/pfp1.png" name="Default Profile" />
+                </Box>
                 </MenuButton>
-                <MenuList>
+                <MenuList >
                   <MenuItem onClick={handleProfile}>Profile</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
