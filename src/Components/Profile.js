@@ -65,7 +65,7 @@ function Profile() {
 
     setFormData({
       ...formData,
-      sports: option,
+      sports: selectedOptions,
     });
   };
 
