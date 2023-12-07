@@ -16,7 +16,6 @@ import {
   VStack,
   HStack,
 } from '@chakra-ui/react';
-import Footer from './Footer';
 
 
 function arrayToString(arr, separator = ', ') {
@@ -224,7 +223,6 @@ function Profile() {
           </form>
         </VStack>
       </Center>
-      <Footer/>
     </ChakraProvider>
   );
 }

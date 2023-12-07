@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, Box, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { useAuthContext } from '../hooks/useAuthContext';
-import Footer from './Footer';
 
 function Leaderboard() {
   const [users, setUsers] = useState(null);
@@ -50,7 +49,6 @@ function Leaderboard() {
           </Tbody>
         </Table>
       </Box>
-      <Footer />
     </ChakraProvider>
   );
 }

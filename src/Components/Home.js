@@ -3,7 +3,6 @@ import { ChakraProvider, Box, Text, Flex, Heading, Icon} from '@chakra-ui/react'
 import { FaPeoplePulling } from 'react-icons/fa6';
 import { FaSearch } from 'react-icons/fa';
 import { GrSchedules } from 'react-icons/gr';
-import Footer from './Footer';
 
 
 
@@ -107,7 +106,6 @@ function Home() {
             {/* How It Works Section */}
         </Flex> 
       </Box>
-      <Footer/>
     </ChakraProvider>
   );
 }
