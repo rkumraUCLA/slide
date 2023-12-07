@@ -133,6 +133,25 @@ const addEvent = async (req, res) => {
     }
 };
 
+// add an event to a user's myEvents
+const updateProfile = async (req, res) => {
+    const userId = req.params.id
+    const updates = req.body; // Assuming you send the event ID in the request body
+
+    if (mongoose.Types.ObjectId.isValid(userId)){// && mongoose.Types.ObjectId.isValid(eventId)) {
+        db.collection('users')
+            .updateOne({_id: new ObjectId(userId)}, {$set: updates})
+            .then(result =>{
+                res.status(200).json(result)
+            })
+            .catch(err =>{
+                res.status(500).json({error: 'Could not update the document'})
+            })
+    } else {
+        res.status(400).json({ error: 'Invalid user or event ID' });
+    }
+};
+
 const updateUser = async (req, res) => {
     const { id } = req.params
 
@@ -190,5 +209,6 @@ module.exports = {
     updateUser,
     addEvent,
     getAllUsers,
-    getUserById
+    getUserById,
+    updateProfile
 }

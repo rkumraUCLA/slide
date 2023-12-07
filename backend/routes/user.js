@@ -2,7 +2,7 @@ const express = require('express')
 const route  = express.Router()
 
 // controller functions
-const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard , getUserEvents, getAllUsers, getUserById} = require('../controllers/userController')
+const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard , getUserEvents, getAllUsers, getUserById, updateProfile} = require('../controllers/userController')
 
 // login route
 route.post('/login', loginUser)
@@ -26,5 +26,7 @@ route.get('/getUserEvents/:id', getUserEvents)
 route.get('/getAllUsers', getAllUsers)
 
 route.get('/getUserByID/:id', getUserById)
+
+route.patch('/updateProfile/:id', updateProfile)
 
 module.exports = route
