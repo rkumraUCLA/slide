@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Box, Table, Thead, Tbody, Tr, Th, Td, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
+import { ChakraProvider, Box, Table, Link as ChakraLink, Tbody, Tr, Th, Td, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { Link } from 'react-router-dom';
 import Footer from './Footer';
 
 function FindUsers() {
@@ -38,6 +39,14 @@ function FindUsers() {
 
   return (
     <ChakraProvider>
+      <div style={{ textAlign: 'right' }}>
+        <Link to="/findusermatch" style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="primary" style={{ background: '#075985', color: 'white'}} mt={20}>
+            Find your match!
+          </Button>
+        </Link>
+      </div>
+
       <Box bg="#f0f9ff" className="home" mt={20} ml={4} mr={4}>
         {/* Search Bar */}
         <Input

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import { useAuthContext } from '../hooks/useAuthContext';
 
+
 function FindUserMatch() {
   const [matchedUsers, setMatchedUsers] = useState(null);
-  const userId = localStorage.getItem('userId');
-  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchUsers = async () => {
