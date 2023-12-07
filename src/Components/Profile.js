@@ -25,9 +25,9 @@ function Profile() {
       const userId = localStorage.getItem('userId');
       const response = await fetch(`/api/user/getUserById/${userId}`);
       const json = await response.json();
-
+  
       if (response.ok) {
-        setFormData({
+        setUser({
           firstName: json.fullName.split(' ')[0] || '',
           lastName: json.fullName.split(' ')[1] || '',
           sports: json.sports || [],
@@ -35,11 +35,11 @@ function Profile() {
         });
       }
     };
-
+  
     if (user) {
       fetchProfile();
     }
-  }, []);
+  }, [user]);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

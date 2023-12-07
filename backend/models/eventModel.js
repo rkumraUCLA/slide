@@ -19,11 +19,11 @@ const eventSchema = new Schema({
         type: Number,
         required: false
     },
-    Location: {
+    location: {
         type: String,
         required: true
     },
-    Time: {
+    eventTime: {
         type: String,
         required: true
     },
