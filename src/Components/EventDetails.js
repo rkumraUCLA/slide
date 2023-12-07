@@ -9,6 +9,7 @@ const EventDetails = () => {
     const [error, setError] = useState(null)
     const jsonId = {myEvents: eventId}
     console.log(JSON.stringify(jsonId))
+    console.log(userId)
 
     const handleSubmit = async(e) =>{
         try {

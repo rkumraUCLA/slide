@@ -9,6 +9,7 @@ const { useInRouterContext } = require('react-router-dom')
 const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, {expiresIn: '3d' })
 }
+
 // login user
 const loginUser = async (req, res) => {
     const { email, password } = req.body
@@ -83,41 +84,37 @@ const getUserById = async (req, res) => {
     }
 };
 
+// get user events
 const getUserEvents = async(req, res) => {
-    const userId = req.params;
-    try {
-        const user = await User.findById(userId);
-    
-        if (!user) {
-          throw new Error('User not found');
+    const userId = req.params.id
+
+    if (mongoose.Types.ObjectId.isValid(userId)){// && mongoose.Types.ObjectId.isValid(eventId)) {
+        try {
+            const user = await User.findById(userId);
+        
+            if (!user) {
+              throw new Error('User not found');
+            }
+        
+            const eventIds = user.myEvents; // Assuming myEvents is an array of event IDs
+            console.log('eventIds', eventIds)
+        
+            // Assuming you have an Event model with event information
+            const Event = require('../models/eventModel'); // Replace with the actual path to your event model
+            const events = await Event.find({ _id: { $in: eventIds } });
+            console.log('events', events)
+            res.status(200).json(events)
+        } catch (error) {
+            console.log(error)
         }
-    
-        const eventIds = user.myEvents; // Assuming myEvents is an array of event IDs
-    
-        // Assuming you have an Event model with event information
-        const Event = require('path/to/your/event/model'); // Replace with the actual path to your event model
-        const events = await Event.find({ _id: { $in: eventIds } });
-    } catch (error) {
-        console.log(error)
+    } else {
+        res.status(400).json({ error: 'Invalid user or event ID' });
     }
+
+    
 }    
 
-const updateUser = async (req, res) => {
-    const { id } = req.params
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'No such User'})
-    }
-
-    const event = await User.findOneAndUpdate({_id: id}, {
-        ...req.body
-    })
-    if (!event) {
-        return res.status(404).json({error: 'No such User'})
-    }
-    res.status(200).json(event)
-}
-
+// add an event to a user's myEvents
 const addEvent = async (req, res) => {
     const userId = req.params.id
     const eventId = req.body.myEvents; // Assuming you send the event ID in the request body
@@ -135,6 +132,23 @@ const addEvent = async (req, res) => {
         res.status(400).json({ error: 'Invalid user or event ID' });
     }
 };
+
+const updateUser = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'No such User'})
+    }
+
+    const event = await User.findOneAndUpdate({_id: id}, {
+        ...req.body
+    })
+    if (!event) {
+        return res.status(404).json({error: 'No such User'})
+    }
+    res.status(200).json(event)
+}
+
 
 // const addEvent = async (req, res) => {
 //     const userId = req.params.id;
