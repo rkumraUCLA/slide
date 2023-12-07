@@ -103,8 +103,31 @@ function Home() {
             title="Slide"
             description="Slide right into fun events, new friendships, and unique experiences!"
           />
+
+            {/* How It Works Section */}
+        <Flex
+          position="absolute"
+          top="100vh"
+          marginTop="10vh"      
+          width="100%"
+          bg="#f0f9ff"
+          padding="4"
+          zIndex={1}
+          direction="column"
+          justify="center"
+          align="center"
+        >
+          {/* Header */}
+          <Heading fontSize="4xl" fontWeight="bold" color="black">
+            How It Works
+          </Heading>
+
+          {/* Text */}
+          <Text fontSize="xl" color="black">
+            Add your detailed explanation about how your platform works here.
+          </Text>
         </Flex>  
-        
+        </Flex> 
       </Box>
       <Footer/>
     </ChakraProvider>
