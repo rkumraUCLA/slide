@@ -95,11 +95,7 @@ function App() {
             {user && (
             <div style={{ position: 'absolute', right: '0'}}>
               <Menu>
-                <MenuButton as={Button} rounded="full" bgColor="transparent"
-                    _hover={{ boxShadow: 'none' }}  
-                    focusBorderColor="none" 
-                    focusShadow="none" 
-                    outline="none">
+              <MenuButton as={Button} bgColor="transparent" _hover={{bgColor: 'transparent'}} _active={{bgColor: 'transparent'}}>
                <Box display="inline-block">
                   <Avatar size="lg" src="/pfp1.png" name="Default Profile" />
                 </Box>
