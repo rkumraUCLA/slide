@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChakraProvider, Box, Text, Button } from '@chakra-ui/react';
 import { useAuthContext } from '../hooks/useAuthContext';
-import Footer from './Footer';
 
 function FindEvents() {
   const [events, setEvents] = useState(null);
@@ -26,8 +25,8 @@ function FindEvents() {
 
   return (
     <ChakraProvider>
-      <Box bg="white" className='home' mt={20} ml={4} mr={4}>
-        <Box className='events' display="grid" gridTemplateColumns="repeat(3, 1fr)" gap={4}>
+      <Box mt="100px" bg="white" className='home' ml={4} mr={4}>
+        <Box vclassName='events' display="grid" gridTemplateColumns="repeat(3, 1fr)" gap={4}>
           {events &&
             events.map((event) => (
               <Link key={event._id} to={`/event/${event._id}`} style={{ textDecoration: 'none' }}>
@@ -68,7 +67,6 @@ function FindEvents() {
             ))}
         </Box>
       </Box>
-      <Footer />
     </ChakraProvider>
   );
 }
