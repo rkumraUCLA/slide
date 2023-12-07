@@ -96,7 +96,7 @@ function App() {
             <div style={{ position: 'absolute', right: '0'}}>
               <Menu>
                 <MenuButton as={Button} bgColor="transparent">
-                <Avatar size="sm" name="Icon"></Avatar>
+                <Avatar size="lg" src={"/pfp1.png"} name="Default Profile" />
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={handleProfile}>Profile</MenuItem>
