@@ -22,6 +22,7 @@ import FindUsers from './Components/FindUsers';
 import { Menu, MenuButton, MenuList, MenuItem, Avatar, Box } from '@chakra-ui/react';
 
 import './App.css';
+import FindUserMatch from './Components/FindUserMatch';
 
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
             <Route path="/leaderboard" element={user ? <Leaderboard /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/profile" element={user ? <Profile />: shouldRedirect ? <Navigate to ="/login"/>: null} />
             <Route path="/findevents" element={user ? <FindEvents /> : shouldRedirect ? <Navigate to="/login" /> : null}/>
-            <Route path="/usermatching" element={user ? <UserMatching />: shouldRedirect ? <Navigate to ="/login" /> : null} />
+            <Route path="/findusermatch" element={user ? <FindUserMatch />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/event/:eventId" element={user ? <EventDetails />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/" element={<Home />} />
           </Routes>
