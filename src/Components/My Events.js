@@ -41,9 +41,9 @@ function MyEvents() {
                   {event.title}
                 </Text>
                 <Text>Sport: {event.sport}</Text>
-                <Text>Description: {event.description}</Text>
-                <Text>Open Spots: {event.spotsOpen}</Text>
                 <Text>Date: {new Date(event.eventDate).toLocaleDateString('en-US')}</Text>
+                <Text>Time: {event.eventTime}</Text>
+                <Text>Location: {event.location}</Text>
                 <Text></Text>
               </Box>
             ))}
