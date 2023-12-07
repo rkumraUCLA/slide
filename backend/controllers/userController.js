@@ -9,6 +9,7 @@ const { useInRouterContext } = require('react-router-dom')
 const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, {expiresIn: '3d' })
 }
+
 // login user
 const loginUser = async (req, res) => {
     const { email, password } = req.body
@@ -88,34 +89,29 @@ const getUserEvents = async(req, res) => {
     const userId = req.params.id
 
     if (mongoose.Types.ObjectId.isValid(userId)){// && mongoose.Types.ObjectId.isValid(eventId)) {
-        db.collection('users')
-            .updateOne({_id: new ObjectId(userId)}, {$push: {myEvents: eventId}})
-            .then(result =>{
-                res.status(200).json(result)
-            })
-            .catch(err =>{
-                res.status(500).json({error: 'Could not update the document'})
-            })
+        try {
+            const user = await User.findById(userId);
+        
+            if (!user) {
+              throw new Error('User not found');
+            }
+        
+            const eventIds = user.myEvents; // Assuming myEvents is an array of event IDs
+            console.log('eventIds', eventIds)
+        
+            // Assuming you have an Event model with event information
+            const Event = require('../models/eventModel'); // Replace with the actual path to your event model
+            const events = await Event.find({ _id: { $in: eventIds } });
+            console.log('events', events)
+            res.status(200).json(events)
+        } catch (error) {
+            console.log(error)
+        }
     } else {
         res.status(400).json({ error: 'Invalid user or event ID' });
     }
 
     
-    try {
-        const user = await User.findById(userId);
-    
-        if (!user) {
-          throw new Error('User not found');
-        }
-    
-        const eventIds = user.myEvents; // Assuming myEvents is an array of event IDs
-    
-        // Assuming you have an Event model with event information
-        const Event = require('path/to/your/event/model'); // Replace with the actual path to your event model
-        const events = await Event.find({ _id: { $in: eventIds } });
-    } catch (error) {
-        console.log(error)
-    }
 }    
 
 // add an event to a user's myEvents
