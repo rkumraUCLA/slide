@@ -3,135 +3,102 @@ import sportsOptions from './sportsOptions';
 import { useAuthContext } from '../hooks/useAuthContext';
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-
-import {
-  ChakraProvider,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Textarea,
-  Center,
-  VStack,
-  HStack,
-} from '@chakra-ui/react';
-
-
-function arrayToString(arr, separator = ', ') {
-  if (!Array.isArray(arr)) {
-    return String(arr); // If it's not an array, convert to a string
-  }
-  return arr.join(separator);
-}
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import { ChakraProvider, Text, FormControl, FormLabel, Input, Button, Center, VStack } from '@chakra-ui/react';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Profile() {
   const { user } = useAuthContext();
-  const [userProf, setUser] = useState(null);
   const userId = localStorage.getItem('userId');
+  const [email, setEmail] = useState('');
+  const [instagram, setInstagram] = useState('');
   const [fullName, setName] = useState('');
   const [age, setAge] = useState('');
   const [sports, setSports] = useState('');
   const [transformedSports, setTSports] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+  
   useEffect(() => {
     const fetchProfile = async () => {
       const response = await fetch(`/api/user/getUserById/${userId}`);
       const json = await response.json();
 
-      console.log(json.sports)
+      console.log(json.sports);
+
+
+
 
       if (response.ok) {
-        setTSports(json.sports.map(sport => ({ value: sport, label: sport })))
-        console.log(transformedSports)
-        setSports(json.sports)
-        setName(json.fullName)
-        setAge(json.age)
-        // setFormData({
-        //   name: json.fullName,
-        //   sports: [],
-        //   age: json.age || '',
-        // })
-
-        ;
+        setTSports(json.sports.map((sport) => ({ value: sport, label: sport })));
+        console.log(transformedSports);
+        setSports(json.sports);
+        setName(json.fullName);
+        setAge(json.age);
+        setEmail(json.email);
+        setInstagram(json.userName);
       }
     };
-  
+
     if (user) {
       fetchProfile();
     }
   }, [user]);
 
-
-  // const [formData, setFormData] = useState({
-  //   name: '',
-  //   sports: [],
-  //   age: ''
-  // });
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
-
-  // const handleSportChange = (strings) => {
-  //   // const selectedOptions = arrayToString(
-  //   //   e.selectedOptions.map((option) => option.label)
-  //   // )
-  //   // const selectedOptions = Array.from(e.target.selectedOptions).map(
-  //   //   (option) => option.value
-  //   // );
-
-  //   console.log(formData)
-  //   setFormData({
-  //     ...formData,
-  //     sports: strings,
-  //   });
-  // };
-
-  // const handleSkillLevelChange = (index, value) => {
-  //   const updatedSports = [...formData.sports];
-  //   updatedSports[index].skillLevel = value;
-
-  //   setFormData({
-  //     ...formData,
-  //     sports: updatedSports,
-  //   });
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(JSON.stringify({fullName, age, sports}));
-    console.log(userId)
+
+    // Validation checks
+    const validationErrors = [];
+
+    if (!fullName.includes(' ')) {
+      validationErrors.push('Full Name must include first name and last name separated by a space.');
+    }
+
+    if (parseInt(age, 10) < 18 || isNaN(parseInt(age, 10))) {
+      validationErrors.push('Age must be at least 18 and a valid number.');
+    }
+
+    if (sports.length < 5) {
+      validationErrors.push('Please choose at least five sports.');
+    }
+
+    if (instagram.length < 5) {
+      validationErrors.push('Username must be at least 5 characters.');
+    }
+
+    if (validationErrors.length > 0) {
+      alert(validationErrors.join('\n'));
+      return;
+    }
+
     try {
       const response = await fetch(`/api/user/updateProfile/${userId}`, {
         method: 'PATCH',
-        body: JSON.stringify({fullName, age, sports}),
+        body: JSON.stringify({ fullName, age, sports, email, instagram }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
-      }
-      else{
+      } else {
         const updatedUser = await response.json();
         console.log('User updated:', updatedUser);
+        setIsModalOpen(true);
+
+
       }
-  
     } catch (error) {
-      console.error('Failed to udpate user');
+      console.error('Failed to update user');
     }
-
-    
-    // You can perform any action with the form data here (e.g., send it to the server).
   };
-
 
   return (
     <ChakraProvider>
@@ -143,7 +110,7 @@ function Profile() {
 
           <form onSubmit={handleSubmit}>
             <FormControl id="name" isRequired mb="3">
-              <FormLabel fontSize="lg">First Name</FormLabel>
+              <FormLabel fontSize="lg">Full Name</FormLabel>
               <Input
                 type="text"
                 name="name"
@@ -153,58 +120,30 @@ function Profile() {
               />
             </FormControl>
 
-            <FormControl>
-                <FormLabel htmlFor="sports">Sports You Play</FormLabel>
-                {/* {console.log('Options:', sportsOptions)}  */}
-                <Select
-                  id="sports"
-                  value = {transformedSports}
-                  options={sportsOptions}
-                  isMulti
-                  onChange={(selectedOptions) =>
-                    {
-                      setSports((e) => selectedOptions.map((option) => option.value))
-                      setTSports(selectedOptions)
-                    }
-                  }
-                ></Select>
-              </FormControl>
-              {/* {/* <Select
-                name="favoriteSports"
-                isMulti
-                value={formData.sports.map((sport) => ({ value: sport.sport, label: sport.sport }))}
-                onChange={handleSportChange}
+            <FormControl id="email" isRequired mb="3">
+              <FormLabel fontSize="lg">Email</FormLabel>
+              <Input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 fontSize="lg"
-                options={[
-                  { value: 'football', label: 'Football' },
-                  { value: 'basketball', label: 'Basketball' },
-                  { value: 'tennis', label: 'Tennis' },
-                  // Add more sports as needed
-                ].map((option) => ({ ...option, label: <span>{option.label}</span> }))}
-              /> */}
-            {/* </FormControl> */}
+              />
+            </FormControl>
 
-            {/* {formData.sports.map((sport, index) => (
-              <HStack key={index} spacing="4">
-                <FormControl id={`skillLevel-${index}`} isRequired>
-                  <FormLabel fontSize="lg">
-                    Skill Level for {sport.sport}
-                  </FormLabel>
-                  <Select
-                    name={`skillLevel-${index}`}
-                    value={sport.skillLevel}
-                    onChange={(e) => handleSkillLevelChange(index, parseInt(e.target.value))}
-                    fontSize="lg"
-                  >
-                    {[1, 2, 3, 4, 5].map((level) => (
-                      <option key={level} value={level}>
-                        {level}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </HStack>
-            ))} */}
+            <FormControl>
+              <FormLabel htmlFor="sports">Sports You Play</FormLabel>
+              <Select
+                id="sports"
+                value={transformedSports}
+                options={sportsOptions}
+                isMulti
+                onChange={(selectedOptions) => {
+                  setSports((e) => selectedOptions.map((option) => option.value));
+                  setTSports(selectedOptions);
+                }}
+              ></Select>
+            </FormControl>
 
             <FormControl id="age" isRequired mb="3">
               <FormLabel fontSize="lg">Age</FormLabel>
@@ -217,12 +156,38 @@ function Profile() {
               />
             </FormControl>
 
+            <FormControl id="instagram" mb="3">
+              <FormLabel fontSize="lg">Instagram</FormLabel>
+              <Input
+                type="text"
+                name="instagram"
+                value={instagram}
+                onChange={(e) => setInstagram(e.target.value)}
+                fontSize="lg"
+              />
+            </FormControl>
+
             <Button align="center" type="submit" bg="#075985" color="#075985" textColor="white" mt="4" fontSize="lg">
               Save Profile
             </Button>
           </form>
         </VStack>
       </Center>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Profile Updated</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Your profile has been changed successfully!</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={handleModalClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </ChakraProvider>
   );
 }
