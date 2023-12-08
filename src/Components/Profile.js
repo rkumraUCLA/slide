@@ -1,6 +1,9 @@
 // Profile.jsx
+import sportsOptions from './sportsOptions';
 import { useAuthContext } from '../hooks/useAuthContext';
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
+
 import {
   ChakraProvider,
   Text,
@@ -9,29 +12,49 @@ import {
   Input,
   Button,
   Textarea,
-  Select,
   Center,
   VStack,
   HStack,
 } from '@chakra-ui/react';
-import Footer from './Footer';
+
+
+function arrayToString(arr, separator = ', ') {
+  if (!Array.isArray(arr)) {
+    return String(arr); // If it's not an array, convert to a string
+  }
+  return arr.join(separator);
+}
 
 
 function Profile() {
   const { user } = useAuthContext();
   const [userProf, setUser] = useState(null);
+  const userId = localStorage.getItem('userId');
+  const [fullName, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [sports, setSports] = useState('');
+  const [transformedSports, setTSports] = useState('');
+
   useEffect(() => {
     const fetchProfile = async () => {
-      const userId = localStorage.getItem('userId');
       const response = await fetch(`/api/user/getUserById/${userId}`);
       const json = await response.json();
-  
+
+      console.log(json.sports)
+
       if (response.ok) {
-        setFormData({
-          name: json.fullName,
-          sports: json.sports || [],
-          age: json.age || '',
-        });
+        setTSports(json.sports.map(sport => ({ value: sport, label: sport })))
+        console.log(transformedSports)
+        setSports(json.sports)
+        setName(json.fullName)
+        setAge(json.age)
+        // setFormData({
+        //   name: json.fullName,
+        //   sports: [],
+        //   age: json.age || '',
+        // })
+
+        ;
       }
     };
   
@@ -39,35 +62,36 @@ function Profile() {
       fetchProfile();
     }
   }, [user]);
-  const [formData, setFormData] = useState({
-    name: '',
-    sports: [],
-    age: ''
-  });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
-  const handleSportChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(
-      (option) => option.value
-    );
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   sports: [],
+  //   age: ''
+  // });
 
-    // const sportsWithSkill = selectedOptions.map((sport) => ({
-    //   sport,
-    //   skillLevel: 1,
-    // }));
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
 
-    setFormData({
-      ...formData,
-      sports: selectedOptions,
-    });
-  };
+  // const handleSportChange = (strings) => {
+  //   // const selectedOptions = arrayToString(
+  //   //   e.selectedOptions.map((option) => option.label)
+  //   // )
+  //   // const selectedOptions = Array.from(e.target.selectedOptions).map(
+  //   //   (option) => option.value
+  //   // );
+
+  //   console.log(formData)
+  //   setFormData({
+  //     ...formData,
+  //     sports: strings,
+  //   });
+  // };
 
   // const handleSkillLevelChange = (index, value) => {
   //   const updatedSports = [...formData.sports];
@@ -79,11 +103,35 @@ function Profile() {
   //   });
   // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(JSON.stringify({fullName, age, sports}));
+    console.log(userId)
+    try {
+      const response = await fetch(`/api/user/updateProfile/${userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({fullName, age, sports}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      else{
+        const updatedUser = await response.json();
+        console.log('User updated:', updatedUser);
+      }
+  
+    } catch (error) {
+      console.error('Failed to udpate user');
+    }
+
+    
     // You can perform any action with the form data here (e.g., send it to the server).
-    console.log(formData);
   };
+
 
   return (
     <ChakraProvider>
@@ -99,26 +147,29 @@ function Profile() {
               <Input
                 type="text"
                 name="name"
-                value={formData.name}
-                onChange={handleInputChange}
+                value={fullName}
+                onChange={(e) => setName(e.target.value)}
                 fontSize="lg"
               />
             </FormControl>
 
-            <FormControl id="lastName" isRequired mb="3">
-              <FormLabel fontSize="lg">Last Name</FormLabel>
-              <Input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                fontSize="lg"
-              />
-            </FormControl>
-
-            <FormControl id="favoriteSports" isRequired mb="3">
-              <FormLabel fontSize="lg">Favorite Sports</FormLabel>
-              <Select
+            <FormControl>
+                <FormLabel htmlFor="sports">Sports You Play</FormLabel>
+                {/* {console.log('Options:', sportsOptions)}  */}
+                <Select
+                  id="sports"
+                  value = {transformedSports}
+                  options={sportsOptions}
+                  isMulti
+                  onChange={(selectedOptions) =>
+                    {
+                      setSports((e) => selectedOptions.map((option) => option.value))
+                      setTSports(selectedOptions)
+                    }
+                  }
+                ></Select>
+              </FormControl>
+              {/* {/* <Select
                 name="favoriteSports"
                 isMulti
                 value={formData.sports.map((sport) => ({ value: sport.sport, label: sport.sport }))}
@@ -130,8 +181,8 @@ function Profile() {
                   { value: 'tennis', label: 'Tennis' },
                   // Add more sports as needed
                 ].map((option) => ({ ...option, label: <span>{option.label}</span> }))}
-              />
-            </FormControl>
+              /> */}
+            {/* </FormControl> */}
 
             {/* {formData.sports.map((sport, index) => (
               <HStack key={index} spacing="4">
@@ -160,8 +211,8 @@ function Profile() {
               <Input
                 type="number"
                 name="age"
-                value={formData.age}
-                onChange={handleInputChange}
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
                 fontSize="lg"
               />
             </FormControl>
@@ -172,7 +223,6 @@ function Profile() {
           </form>
         </VStack>
       </Center>
-      <Footer/>
     </ChakraProvider>
   );
 }

@@ -39,17 +39,33 @@ function FindUsers() {
 
   return (
     <ChakraProvider>
-      <div style={{ textAlign: 'right' }}>
-        <Link to="/findusermatch" style={{ textDecoration: 'none' }}>
-          <Button variant="contained" color="primary" style={{ background: '#075985', color: 'white'}} mt={20}>
-            Find your match!
-          </Button>
-        </Link>
-      </div>
-
-      <Box bg="#f0f9ff" className="home" mt={20} ml={4} mr={4}>
-        {/* Search Bar */}
+    <div style={{ textAlign: 'center', paddingTop: '15vh' }}>
+      <Link to="/findusermatch" style={{ textDecoration: 'none' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{
+            background: 'linear-gradient(to right, #7dd3fc, #075985)',
+            color: 'white',
+            fontSize: '1.5em',  // Increase font size as needed
+            padding: '15px 15px',  // Adjust padding as needed
+          }}
+        >
+          Find your match!
+        </Button>
+      </Link>
+    </div>
+    <Box
+      bgGradient="linear(to-b, #7dd3fc, #075985)"
+      className="home"
+      mt="20px"
+      paddingLeft="10px"
+      paddingRight="10px"
+      paddingTop="10px"
+    >       
+     {/* Search Bar */}
         <Input
+          bg="white"
           type="text"
           placeholder="Search by full name"
           value={searchQuery}

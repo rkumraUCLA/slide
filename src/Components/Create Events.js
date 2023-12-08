@@ -27,11 +27,10 @@ const CreateEvent = () => {
   const [description, setDescription] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(null);
-  const { eventId } = useParams();
   const userId = localStorage.getItem('userId');
-  const jsonId = { myEvents: eventId };
   const [location, setLocation] = useState('');
   const [eventTime, setEventTime] = useState(null);
+  // console.log(jsonId)
 
   const navigate = useNavigate();
 
@@ -126,6 +125,11 @@ const CreateEvent = () => {
     });
 
     const json = await response.json();
+    console.log(json._id)
+    
+    const eventId = json._id;
+    const jsonId = {myEvents: eventId}
+    console.log(JSON.stringify(jsonId))
 
     if (!response.ok) {
       setError(json.error);

@@ -19,10 +19,11 @@ import UserMatching from './Components/UserMatching';
 import SignupConfirm from './Components/SignupConfirm';
 import Leaderboard from './Components/Leaderboard';
 import FindUsers from './Components/FindUsers';
+import FindUserMatch from './Components/FindUserMatch';
+
 import { Menu, MenuButton, MenuList, MenuItem, Avatar, Box } from '@chakra-ui/react';
 
 import './App.css';
-import FindUserMatch from './Components/FindUserMatch';
 
 
 function App() {
@@ -54,11 +55,11 @@ function App() {
             <Route path="/signupconfirmed" element={user ? <SignupConfirm />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/signup" element={user ? <Navigate to ="/findevents"></Navigate> : <Signup />} />
             <Route path="/findusers" element={user ? <FindUsers /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
+            <Route path="/findusermatch" element={user ? <FindUserMatch /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/create-event" element={user ? <CreateEvent />: <Navigate to ="/login"></Navigate>} />
             <Route path="/leaderboard" element={user ? <Leaderboard /> : shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/profile" element={user ? <Profile />: shouldRedirect ? <Navigate to ="/login"/>: null} />
             <Route path="/findevents" element={user ? <FindEvents /> : shouldRedirect ? <Navigate to="/login" /> : null}/>
-            <Route path="/findusermatch" element={user ? <FindUserMatch />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/event/:eventId" element={user ? <EventDetails />: shouldRedirect ? <Navigate to ="/login" /> : null} />
             <Route path="/" element={<Home />} />
           </Routes>
