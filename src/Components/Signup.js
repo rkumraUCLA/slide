@@ -2,7 +2,6 @@ import React from 'react';
 import Select from 'react-select';
 import { useState } from 'react';
 import { useSignup } from "../hooks/useSignup"
-import Footer from './Footer';
 import sportsOptions from './sportsOptions';
 
 import {
@@ -221,7 +220,6 @@ function Signup() {
             </Box>
           </form>
         </Stack>
-        <Footer/>
       </Container>
     </ChakraProvider>
   );

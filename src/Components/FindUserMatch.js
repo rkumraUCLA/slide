@@ -1,19 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  SimpleGrid,
+  Skeleton,
+  ChakraProvider,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 function FindUserMatch() {
   const [matchedUsers, setMatchedUsers] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const userId = localStorage.getItem('userId');
-      const response = await fetch(`/api/user/getUserById/${userId}`);
-      const userData = await response.json();
-      const sportsArray = userData.sports;
-      console.log(sportsArray);
       try {
-        const response = await fetch('/api/user/getUsers', {
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`/api/user/getUserById/${userId}`);
+        const userData = await response.json();
+        const sportsArray = userData.sports;
+
+        const usersResponse = await fetch('/api/user/getUsers', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -21,104 +39,117 @@ function FindUserMatch() {
           body: JSON.stringify({ sports: sportsArray }),
         });
 
-        const json = await response.json();
-        console.log('API Response:', json);
+        const usersData = await usersResponse.json();
 
-        if (response.ok) {
-          setMatchedUsers(json);
+        if (usersResponse.ok) {
+          setMatchedUsers(usersData.users);
         } else {
-          console.error('API Error:', json); // Log any error response
+          console.error('API Error:', usersData); // Log any error response
         }
       } catch (error) {
         console.error('Fetch Error:', error); // Log fetch-related errors
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchUsers();
-  }, []);
+    if (user) {
+      fetchUsers();
+    }
+  }, [user]);
+
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedUser(null);
+  };
 
   return (
-    <Box
-      p={4}
-      borderWidth="1px"
-      borderRadius="md"
-      mt={20}
-      ml={10}
-      mr={10}
-      bgGradient="linear(to-r, #f0f9ff, #38bdf8, #075985)"
-    >
-      <Text>TODO</Text>
-    </Box>
+    <ChakraProvider>
+      <div style={{ textAlign: 'center', paddingTop: '15vh' }}>
+        <Link to="/findusermatch" style={{ textDecoration: 'none' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              background: 'linear-gradient(to right, #7dd3fc, #075985)',
+              color: 'white',
+              fontSize: '1.5em',
+              padding: '15px 15px',
+            }}
+          >
+            Find your match!
+          </Button>
+        </Link>
+      </div>
+      <Box
+        p={4}
+        borderWidth="1px"
+        borderRadius="md"
+        mt={20}
+        ml={10}
+        mr={10}
+        bgGradient="linear(to-b, #7dd3fc, #075985)"
+      >
+        <Text fontSize="xl" mb={4}>
+          Matched Users
+        </Text>
+
+        {loading ? (
+          <SimpleGrid columns={3} spacing={4}>
+            {[...Array(6)].map((_, index) => (
+              <Skeleton key={index} height="120px" borderRadius="md" />
+            ))}
+          </SimpleGrid>
+        ) : (
+          <SimpleGrid columns={3} spacing={4}>
+            {matchedUsers && matchedUsers.length > 0 ? (
+              matchedUsers.map((user) => (
+                <Box
+                  key={user._id}
+                  borderWidth="1px"
+                  borderRadius="md"
+                  p={4}
+                  onClick={() => handleUserClick(user)}
+                  cursor="pointer"
+                >
+                  <Text>{user.fullName}</Text>
+                </Box>
+              ))
+            ) : (
+              <Text>No matched users found.</Text>
+            )}
+          </SimpleGrid>
+        )}
+      </Box>
+
+      <Modal isOpen={selectedUser !== null} onClose={handleCloseModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{selectedUser && selectedUser.fullName}'s Information</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* Display user info */}
+            {selectedUser && (
+            <div>
+              <p>Email: {selectedUser.email}</p>
+              <p>Instagram: {selectedUser.userName}</p>
+              <p>Age: {selectedUser.age}</p>
+              <p>Events Attended: {selectedUser.eventsCreated}</p>
+            </div>
+          )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </ChakraProvider>
   );
 }
 
 export default FindUserMatch;
-
-
-
-
-
-
-
-
-
-
-
-
-/*import React, { useState, useEffect } from 'react';
-import { Box, Text } from '@chakra-ui/react';
-import { useAuthContext } from '../hooks/useAuthContext';
-
-
-function FindUserMatch() {
-  const [matchedUsers, setMatchedUsers] = useState(null);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const userId = localStorage.getItem('userId');
-      const response = await fetch(`/api/user/getUserById/${userId}`);
-      const userData = await response.json();
-      const sportsArray = userData.sports;
-      console.log(sportsArray);
-      try {
-        const response = await fetch('/api/user/getUsers', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ sports: sportsArray }),
-        });
-
-        const json = await response.json();
-        console.log('API Response:', json);
-
-        if (response.ok) {
-          setMatchedUsers(json);
-        } else {
-          console.error('API Error:', json); // Log any error response
-        }
-      } catch (error) {
-        console.error('Fetch Error:', error); // Log fetch-related errors
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-
-  return (
-    <Box
-      p={4}
-      borderWidth="1px"
-      borderRadius="md"
-      mt={20}
-      ml={10}
-      mr={10}
-      bgGradient="linear(to-r, #f0f9ff, #38bdf8, #075985)"
-    >
-    </Box>
-  );
-}
-
-export default FindUserMatch;
-*/

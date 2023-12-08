@@ -1,5 +1,6 @@
 const express = require('express')
 const route  = express.Router()
+const cors = require('cors');
 
 // controller functions
 const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard , getUserEvents, getAllUsers, getUserById, updateProfile, removeEvent} = require('../controllers/userController')
@@ -11,7 +12,7 @@ route.post('/login', loginUser)
 route.post('/signup', signupUser)
 
 // get all the users route
-route.get('/getUsers', getUsers)
+route.post('/getUsers', cors(), getUsers)
 
 route.get('/getLeaderboard', getLeaderboard)
 

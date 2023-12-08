@@ -20,11 +20,19 @@ const EventDetails = () => {
                   'Content-Type': 'application/json'
                 }
             })
-    
+            console.log("Old event", event)
+
+            const decSpots = await fetch(`/api/events/decSpots/${eventId}`, {
+                method:'PATCH'
+            })
+            if (!decSpots.ok) {
+                throw new Error('Dec spots not working');
+            }
+            const updatedEvent = await decSpots.json();
+            console.log('Event updated:', updatedEvent);
             if (!response2.ok) {
                 throw new Error('Network response was not ok');
             }
-    
             const updatedUser = await response2.json();
             console.log('User updated:', updatedUser);
         } catch (error) {

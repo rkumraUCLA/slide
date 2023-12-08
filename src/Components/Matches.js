@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChakraProvider, Box, Text, Button } from '@chakra-ui/react';
 import { useAuthContext } from '../hooks/useAuthContext';
-import Footer from './Footer';
 
 function Matches() {
   const [users, setMatches] = useState(null);
@@ -53,7 +52,6 @@ function Matches() {
             ))}
         </Box>
       </Box>
-      <Footer/>
     </ChakraProvider>
   );
 }

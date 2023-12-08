@@ -52,7 +52,6 @@ const deleteEvent = async (req, res) => {
 const updateEvent = async (req, res) => {
     const id = req.params
     const updates = req.body
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'No such event'})
     }
@@ -67,10 +66,34 @@ const updateEvent = async (req, res) => {
     }
     res.status(200).json(event)
 }
+
+const decSpots = async (req, res) => {
+    const eventId = req.params.id
+    console.log(eventId)
+    try {
+        const event = await Event.findById(eventId);
+
+        if (!event) {
+            return res.status(404).json({ error: 'No such event' });
+        }
+        console.log(event)
+        // Decrement spotsTotal by 1
+        event.spotsTotal -= 1;
+
+        // Save the updated event
+        const updatedEvent = await event.save();
+
+        res.json(updatedEvent);
+    } catch (error) {
+        console.error('Error decrementing spots:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 module.exports = {
     getAllEvents,
     getEvent,
     createEvent,
     deleteEvent,
-    updateEvent
+    updateEvent,
+    decSpots
 }

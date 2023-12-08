@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChakraProvider, Box, Button, Flex, Text } from '@chakra-ui/react';
-import Footer from './Footer';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 function MyEvents() {
@@ -83,7 +82,6 @@ function MyEvents() {
             </Button>
           </Link>
         </Flex>
-        <Footer />
       </Box>
     </ChakraProvider>
   );

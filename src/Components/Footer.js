@@ -1,4 +1,8 @@
 // Footer.jsx
+
+//We wanted to implement a footer, but had issues with fixing it to the bottom of the page regardless of viewport size.
+// Keeping this code here just to record that we did try and that we are eager to learn how to properly implement it later.
+
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 

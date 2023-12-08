@@ -2,7 +2,6 @@ import React from 'react';
 import { useLogin } from '../hooks/useLogin';
 import {useState } from 'react';
 import './styles.css';
-import Footer from './Footer';
 
 
 import {
@@ -134,7 +133,6 @@ function Login() {
           </flex>
         </Stack>
       </Container>
-      <Footer/>
     </ChakraProvider>
   );
 }
