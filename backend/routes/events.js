@@ -10,7 +10,8 @@ const {
     getEvent,
     getAllEvents,
     deleteEvent,
-    updateEvent
+    updateEvent,
+    decSpots
 } = require('../controllers/eventController')
 
 // route.use(requireAuth)
@@ -24,5 +25,7 @@ route.post('/', createEvent)
 route.delete('/:id', deleteEvent)
 
 route.patch('/:id', updateEvent)
+
+route.patch('/decSpots/:id', decSpots)
 
 module.exports = route
