@@ -51,7 +51,7 @@ function FindEvents() {
                     Sport: {event.sport}
                   </Text>
                   <Text>
-                    Open Spots: {event.spotsOpen}
+                    Open Spots: {event.spotsTotal}
                   </Text>
                   <Button
                     bgGradient="linear(to-r, #7dd3fc, #075985)"

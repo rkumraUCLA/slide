@@ -78,8 +78,7 @@ const EventDetails = () => {
                 </Heading>
                 <Text fontSize="bold">Sports: {event.sport}</Text>
                 <Text fontSize="bold">Description: {event.description}</Text>
-                <Text fontSize="bold">Total Spots: {event.spotsTotal}</Text>
-                <Text fontSize="bold">Open Spots: {event.spotsOpen}</Text>
+                <Text fontSize="bold">Open Spots: {event.spotsTotal}</Text>
                 <Text fontSize="bold">People Going: {event.usersAssociated}</Text>
                 <Text fontSize="bold">Date: {new Date(event.eventDate).toLocaleDateString('en-US')}</Text>
                 {/* Add other details as needed */}
