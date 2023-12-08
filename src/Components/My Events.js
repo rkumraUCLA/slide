@@ -8,6 +8,32 @@ function MyEvents() {
   const userId = localStorage.getItem('userId');
   const { user } = useAuthContext();
   const [events, setEvents] = useState(null);
+  // const [eventId, setEventId] = useState(null);
+
+  const handleSubmit = async(eventId) =>{
+    try {
+      const jsonId = {myEvents: eventId}
+      console.log(JSON.stringify(jsonId))
+      console.log(userId)
+
+      const response2 = await fetch(`/api/user/removeEvent/${userId}`,{
+          method:'PATCH',
+          body: JSON.stringify(jsonId),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+      })
+
+      if (!response2.ok) {
+          throw new Error('Network response was not ok');
+      }
+
+      const updatedUser = await response2.json();
+      console.log('User updated:', updatedUser);
+    } catch (error) {
+        console.error('Failed to add event:', error);
+    }
+  }
 
   useEffect(() => {
     const fetchUserEvents = async () => {
@@ -42,6 +68,9 @@ function MyEvents() {
                 <Text>Time: {event.eventTime}</Text>
                 <Text>Location: {event.location}</Text>
                 <Text></Text>
+                <Button mt={4} bg="#0284c7" color="white" size="sm" onClick={() => handleSubmit(event._id)}>
+                  Slide Out
+                </Button>
               </Box>
             ))}
         </Box>
