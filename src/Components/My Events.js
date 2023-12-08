@@ -9,28 +9,31 @@ function MyEvents() {
   const [events, setEvents] = useState(null);
   // const [eventId, setEventId] = useState(null);
 
-  const handleSubmit = async(eventId) =>{
+  const handleSubmit = async (eventId) => {
     try {
-      const jsonId = {myEvents: eventId}
-      console.log(JSON.stringify(jsonId))
-      console.log(userId)
+      const jsonId = { myEvents: eventId };
+      console.log(JSON.stringify(jsonId));
+      console.log(userId);
 
-      const response2 = await fetch(`/api/user/removeEvent/${userId}`,{
-          method:'PATCH',
-          body: JSON.stringify(jsonId),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-      })
+      const response2 = await fetch(`/api/user/removeEvent/${userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(jsonId),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (!response2.ok) {
-          throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok');
       }
 
       const updatedUser = await response2.json();
       console.log('User updated:', updatedUser);
+
+      // Update the local state by filtering out the removed event
+      setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
     } catch (error) {
-        console.error('Failed to add event:', error);
+      console.error('Failed to remove event:', error);
     }
   }
 
@@ -54,11 +57,24 @@ function MyEvents() {
 
   return (
     <ChakraProvider>
-      <Box  bg="white" className='home' mt="102px" ml={4} mr={4} style={{ zIndex: 1 }}>
-        <Box className='events' display="grid" gridTemplateColumns="repeat(3, 1fr)" gap={4} style={{ zIndex: 3 }}>
+      <Box bg="white" className="home" mt="102px" ml={4} mr={4} style={{ zIndex: 1 }}>
+        <Box
+          className="events"
+          display="grid"
+          gridTemplateColumns="repeat(3, 1fr)"
+          gap={4}
+          style={{ zIndex: 3 }}
+        >
           {events &&
             events.map((event) => (
-              <Box key={event._id} p={4} borderWidth="1px" borderRadius="md" mb={4} style={{ zIndex: 3, backgroundColor: '#f0f9ff' }}>
+              <Box
+                key={event._id}
+                p={4}
+                borderWidth="1px"
+                borderRadius="md"
+                mb={4}
+                style={{ zIndex: 3, backgroundColor: '#f0f9ff' }}
+              >
                 <Text fontSize="lg" fontWeight="bold" mb={2}>
                   {event.title}
                 </Text>
@@ -67,10 +83,17 @@ function MyEvents() {
                 <Text>Time: {event.eventTime}</Text>
                 <Text>Location: {event.location}</Text>
                 <Text></Text>
-                <Button mt={4} bg="#0284c7" color="white" size="sm" onClick={() => handleSubmit(event._id)}>
+                <Button
+                  mt={4}
+                  bg="#0284c7"
+                  color="white"
+                  size="sm"
+                  onClick={() => handleSubmit(event._id)}
+                >
                   Slide Out
                 </Button>
               </Box>
+
             ))}
         </Box>
       </Box>

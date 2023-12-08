@@ -113,7 +113,7 @@ const CreateEvent = () => {
       description,
       eventDate,
       location,
-      eventTime,
+      eventTime: eventTime ? eventTime.toLocaleTimeString() : null,
     };
 
     const response = await fetch('/api/events', {
@@ -186,7 +186,7 @@ const CreateEvent = () => {
           <Button
             variant="primary"
             style={{
-              background: 'blue',
+              background: '#075985',
               color: 'white',
               margin: '10px',
             }}
@@ -197,7 +197,7 @@ const CreateEvent = () => {
           <Button
             variant="primary"
             style={{
-              background: 'blue',
+              background: '#075985',
               color: 'white',
               margin: '10px',
             }}
@@ -213,7 +213,7 @@ const CreateEvent = () => {
       <Button
         variant="primary"
         style={{
-          background: 'blue',
+          background: '#075985',
           color: 'white',
           margin: '10px',
         }}
@@ -321,21 +321,20 @@ const CreateEvent = () => {
       );
 
       case 5:
-        return (
-          <FormControl>
-            <FormLabel htmlFor="eventTime">Time</FormLabel>
-            <DatePicker
-              id="eventTime"
-              selected={eventTime ? new Date(eventTime) : null}
-              onChange={(time) => setEventTime(time)}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              dateFormat="h:mm aa"
-            />
-          </FormControl>
-      );
-
+  return (
+    <FormControl>
+      <FormLabel htmlFor="eventTime">Time</FormLabel>
+      <DatePicker
+        id="eventTime"
+        selected={eventTime ? new Date(eventTime) : null}
+        onChange={(time) => setEventTime(time)}
+        showTimeSelect
+        showTimeSelectOnly
+        timeIntervals={15}
+        dateFormat="h:mm aa"
+      />
+    </FormControl>
+  );
       default:
         return null;
     }
