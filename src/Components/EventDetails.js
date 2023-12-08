@@ -5,8 +5,8 @@ import { Box, Heading, Text, Button } from '@chakra-ui/react';
 const EventDetails = () => {
     const { eventId } = useParams();
     const [event, setEvent] = useState(null);
-    const userId = localStorage.getItem('userId');
     const [error, setError] = useState(null)
+    const userId = localStorage.getItem('userId');
     const jsonId = {myEvents: eventId}
     console.log(JSON.stringify(jsonId))
     console.log(userId)

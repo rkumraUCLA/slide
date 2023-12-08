@@ -3,7 +3,7 @@ const route  = express.Router()
 const cors = require('cors');
 
 // controller functions
-const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard , getUserEvents, getAllUsers, getUserById, updateProfile} = require('../controllers/userController')
+const { loginUser, signupUser, getUsers, updateUser, addEvent, getLeaderboard , getUserEvents, getAllUsers, getUserById, updateProfile, removeEvent} = require('../controllers/userController')
 
 // login route
 route.post('/login', loginUser)
@@ -21,6 +21,9 @@ route.patch('/updateUser', updateUser)
 
 // addevents
 route.patch('/addEvent/:id', addEvent)
+
+// addevents
+route.patch('/removeEvent/:id', removeEvent)
 
 route.get('/getUserEvents/:id', getUserEvents)
 
