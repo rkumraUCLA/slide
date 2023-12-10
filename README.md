@@ -9,5 +9,7 @@
 
 ## npm install will install everything necessary(including command to start up frontend and backend concurrently)
 
+## Run 'npm start' to run the application!
+
 ## The frontend application runs on http://localhost:3000
 ## The backend application runs on http://localhost:4000
