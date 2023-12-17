@@ -5,11 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
 import { ChakraProvider, Text, FormControl, FormLabel, Input, Button, Center, VStack } from '@chakra-ui/react';
-<<<<<<< HEAD
-//import 'react-toastify/dist/ReactToastify.css';
-=======
 // import 'react-toastify/dist/ReactToastify.css';
->>>>>>> b63ed90f0cba9d93140cdfa33fbd1e9f82922cd2
 
 
 function Profile() {
