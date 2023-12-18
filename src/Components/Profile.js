@@ -88,7 +88,7 @@ function Profile() {
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
-      } else {
+      } else {  
         const updatedUser = await response.json();
         console.log('User updated:', updatedUser);
         setIsModalOpen(true);
